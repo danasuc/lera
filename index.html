@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vocabulary & Speaking Mastery Trainer</title>
+  <style>
+    :root {
+      --bg: #0b1329;
+      --card-bg: #1e293b;
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --border: #334155;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+    
+    header { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    h1 { font-size: 1.45rem; font-weight: 700; color: var(--accent); }
+    .status-badge { background: var(--card-bg); border: 1px solid var(--border); padding: 6px 14px; border-radius: 999px; font-size: 0.85rem; }
+
+    nav { display: flex; gap: 8px; width: 100%; max-width: 800px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 12px; overflow-x: auto; }
+    nav button { background: transparent; border: none; color: var(--text-muted); padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    nav button.active { background: var(--card-bg); color: var(--accent); }
+    nav button:hover:not(.active) { color: var(--text); }
+
+    .view-panel { display: none; width: 100%; max-width: 800px; flex-direction: column; align-items: center; }
+    .view-panel.active { display: flex; }
+
+    /* Flashcard Styles */
+    .card-scene { width: 100%; max-width: 480px; height: 320px; perspective: 1000px; cursor: pointer; margin-bottom: 20px; }
+    .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 16px; border: 1px solid var(--border); }
+    .card.is-flipped { transform: rotateY(180deg); }
+    .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; border-radius: 16px; background: var(--card-bg); }
+    .card-face.back { transform: rotateY(180deg); border-color: var(--accent); }
+    .card-word { font-size: 2.1rem; font-weight: 700; margin-bottom: 8px; color: var(--accent); }
+    .card-transcription { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 16px; }
+    .card-meaning { font-size: 1.35rem; font-weight: 600; margin-bottom: 12px; }
+    .card-example { font-style: italic; color: var(--text-muted); font-size: 0.95rem; }
+
+    .controls { display: flex; gap: 12px; width: 100%; max-width: 480px; justify-content: center; }
+    button.btn { background: var(--card-bg); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    button.btn:hover { border-color: var(--accent); color: var(--accent); }
+    button.btn-primary { background: var(--accent); color: #000; border: none; }
+    button.btn-primary:hover { background: var(--accent-hover); color: #fff; }
+    button.btn-danger { border-color: var(--danger); color: var(--danger); }
+    button.btn-danger:hover { background: var(--danger); color: #fff; }
+    button.btn-success { border-color: var(--success); color: var(--success); }
+    button.btn-success:hover { background: var(--success); color: #fff; }
+
+    /* Speaking Prompt Card */
+    .prompt-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; width: 100%; max-width: 600px; margin-bottom: 20px; }
+    .prompt-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 8px; }
+    .prompt-target { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; }
+    .prompt-task { font-size: 1.05rem; line-height: 1.5; margin-bottom: 16px; }
+    .prompt-helper { background: rgba(56, 189, 248, 0.08); border-left: 3px solid var(--accent); padding: 10px 14px; font-size: 0.9rem; color: var(--text-muted); }
+
+    /* Writing / Dictation */
+    .write-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 28px; width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 16px; text-align: center; }
+    input[type="text"] { width: 100%; background: #0b1120; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; color: var(--text); font-size: 1.1rem; outline: none; }
+    input[type="text"]:focus { border-color: var(--accent); }
+    .feedback-text { min-height: 24px; font-weight: 600; font-size: 0.95rem; }
+
+    /* Quiz */
+    .quiz-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; width: 100%; max-width: 500px; }
+    .quiz-options { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 16px; width: 100%; }
+    .option-btn { background: #0b1120; border: 1px solid var(--border); color: var(--text); padding: 12px 16px; border-radius: 8px; text-align: left; cursor: pointer; transition: all 0.2s; font-size: 1rem; }
+    .option-btn:hover { border-color: var(--accent); }
+    .option-btn.correct { background: rgba(34, 197, 94, 0.2); border-color: var(--success); color: var(--success); }
+    .option-btn.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--danger); color: var(--danger); }
+
+    /* Word List Table */
+    .stats-table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 12px; overflow: hidden; font-size: 0.9rem; }
+    .stats-table th, .stats-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+    .stats-table th { background: #131d31; color: var(--accent); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>LexiSRS: Study & Speaking</h1>
+    <div class="status-badge" id="srs-status">На повторение: 0 слов</div>
+  </header>
+
+  <nav>
+    <button class="active" onclick="switchTab('srs')">SRS Карточки</button>
+    <button onclick="switchTab('speaking')">Говорение</button>
+    <button onclick="switchTab('write')">Диктант</button>
+    <button onclick="switchTab('quiz')">Тест</button>
+    <button onclick="switchTab('list')">Словарь и Сроки</button>
+  </nav>
+
+  <!-- TAB 1: SRS CARDS -->
+  <section id="view-srs" class="view-panel active">
+    <div class="card-scene" onclick="flipCard(this)">
+      <div class="card" id="srs-card">
+        <div class="card-face front">
+          <div class="card-word" id="srs-term">word</div>
+          <div class="card-transcription" id="srs-type">part of speech</div>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Нажмите, чтобы перевернуть</p>
+        </div>
+        <div class="card-face back">
+          <div class="card-meaning" id="srs-def">значение</div>
+          <div class="card-example" id="srs-ex">example sentence</div>
+        </div>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn" onclick="speakCurrentWord()">🔊 Озвучить</button>
+      <button class="btn btn-danger" onclick="gradeWord(1)">Забыл (Снова)</button>
+      <button class="btn btn-success" onclick="gradeWord(3)">Помню (Дальше)</button>
+    </div>
+  </section>
+
+  <!-- TAB 2: SPEAKING -->
+  <section id="view-speaking" class="view-panel">
+    <div class="prompt-box">
+      <div class="prompt-label">Speaking Practice Card</div>
+      <div class="prompt-target" id="spk-target">Target Word</div>
+      <div class="prompt-task" id="spk-task">Topic Task</div>
+      <div class="prompt-helper" id="spk-hint">Hint context</div>
+    </div>
+    <div class="controls">
+      <button class="btn" onclick="speakText(document.getElementById('spk-target').innerText)">🔊 Произнести</button>
+      <button class="btn btn-primary" onclick="nextSpeakingPrompt()">Следующая тема</button>
+    </div>
+  </section>
+
+  <!-- TAB 3: WRITING / DICTATION -->
+  <section id="view-write" class="view-panel">
+    <div class="write-card">
+      <div class="card-meaning" id="write-def">Перевод слова</div>
+      <div class="card-example" id="write-hint">_ _ _ _ (первая буква)</div>
+      <input type="text" id="write-input" placeholder="Напишите слово / выражение по-английски..." autocomplete="off">
+      <div class="feedback-text" id="write-feedback"></div>
+      <div class="controls">
+        <button class="btn" onclick="speakCurrentWriteWord()">🔊 Аудио-подсказка</button>
+        <button class="btn btn-primary" onclick="checkWriting()">Проверить</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 4: QUIZ -->
+  <section id="view-quiz" class="view-panel">
+    <div class="quiz-card">
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 4px;">Выберите верный перевод:</p>
+      <h2 style="color: var(--accent); margin-bottom: 16px;" id="quiz-question">word</h2>
+      <div class="quiz-options" id="quiz-options"></div>
+      <div class="feedback-text" id="quiz-feedback" style="margin-top: 12px; text-align: center;"></div>
+    </div>
+  </section>
+
+  <!-- TAB 5: STATS & OVERVIEW -->
+  <section id="view-list" class="view-panel">
+    <table class="stats-table">
+      <thead>
+        <tr>
+          <th>Слово</th>
+          <th>Перевод</th>
+          <th>Уровень</th>
+          <th>След. повторение</th>
+        </tr>
+      </thead>
+      <tbody id="stats-body"></tbody>
+    </table>
+    <div style="margin-top: 20px;">
+      <button class="btn btn-danger" onclick="resetDatabase()">Сбросить прогресс</button>
+    </div>
+  </section>
+
+  <script>
+    const VOCABULARY = [
+      { id: 1, word: "funerals", def: "похороны, траурные церемонии", ex: "Traditional funerals in different cultures involve unique rituals.", pos: "noun (plural)", task: "Порассуждайте о том, как исторические традиции и обряды памяти меняются со временем." },
+      { id: 2, word: "estimated", def: "расчетный, приблизительный, оцененный", ex: "The estimated cost of the archaeological excavation was high.", pos: "adjective / verb", task: "Расскажите, как вы планируете свой бюджет или приблизительное время на подготовку к сложным экзаменам." },
+      { id: 3, word: "quality", def: "качественный, добротный (или качество)", ex: "She always chooses quality education over fast courses.", pos: "noun / adjective", task: "Что для вас является главным критерием качественного преподавания или хорошей книги?" },
+      { id: 4, word: "it can lead to", def: "это может привести к...", ex: "Constant stress and lack of sleep can lead to serious fatigue.", pos: "phrase", task: "Порассуждайте, к чему может привести пренебрежение отдыхом во время напряженной сессии или работы." },
+      { id: 5, word: "burnout", def: "эмоциональное или профессиональное выгорание", ex: "Taking regular breaks is crucial to avoid academic burnout.", pos: "noun", task: "Как преподаватели и студенты могут распознать первые признаки выгорания и предотвратить его?" },
+      { id: 6, word: "recall", def: "вспоминать, воскрешать в памяти; отзывать", ex: "I can clearly recall my first day at university.", pos: "verb", task: "Опишите самое яркое и теплое воспоминание из школьных лет, которое вы часто вспоминаете." },
+      { id: 7, word: "to run out of", def: "заканчиваться, истощаться (о времени, силах, ресурсах)", ex: "We can easily run out of energy if we do not rest properly.", pos: "phrasal verb", task: "Вспомните ситуацию, когда у вас внезапно заканчивалось время перед сдачей проекта или дедлайном." },
+      { id: 8, word: "conditions", def: "условия (труда, жизни, погодные)", ex: "Scholars require calm and comfortable working conditions to focus.", pos: "noun (plural)", task: "Какие идеальные условия необходимы вам для максимально продуктивного изучения иностранных языков?" },
+      { id: 9, word: "solve / solution", def: "решать / решение (проблемы, вопроса)", ex: "Diplomats worked hard to find a peaceful solution.", pos: "verb / noun", task: "Опишите непростую проблему, которую вам недавно удалось успешно решить благодаря логике или терпению." },
+      { id: 10, word: "to doubt smth", def: "сомневаться в чем-либо", ex: "Historians often doubt unverified legends and sources.", pos: "verb", task: "Почему критическое мышление требует сомневаться в информации из социальных сетей?" },
+      { id: 11, word: "exhausted", def: "истощенный, крайне утомленный, обессиленный", ex: "After the five-hour archive research, she felt completely exhausted.", pos: "adjective", task: "Что помогает вам быстро восстановить силы, когда вы чувствуете себя абсолютно истощенным?" },
+      { id: 12, word: "accurately", def: "точно, безошибочно, аккуратно", ex: "Translators must convey the original meaning accurately.", pos: "adverb", task: "Почему так важно точно передавать факты при анализе исторических источников или цитировании?" },
+      { id: 13, word: "crises", def: "кризисы (множественное число слова crisis)", ex: "Strong societies learn valuable lessons from historical crises.", pos: "noun (plural)", task: "Как преодоление трудных кризисных периодов помогает личностному росту человека?" },
+      { id: 14, word: "to require", def: "требовать, нуждаться", ex: "Mastering an advanced foreign language requires patience and daily practice.", pos: "verb", task: "Какие навыки и личные качества требуются хорошему исследователю или педагогу?" },
+      { id: 15, word: "purchase", def: "покупка / покупать, приобретать", ex: "Buying that rare academic dictionary was a worthwhile purchase.", pos: "noun / verb", task: "Расскажите о самой полезной и удачной покупке для учебы или работы, которую вы когда-либо совершали." }
+    ];
+
+    // SRS intervals: 1 min, 10 min, 1 day, 3 days, 7 days, 14 days, 30 days
+    const INTERVALS = [60000, 600000, 86400000, 259200000, 604800000, 1209600000, 2592000000];
+
+    let userState = {};
+
+    function initData() {
+      const saved = localStorage.getItem("lexi_note_state");
+      if (saved) {
+        userState = JSON.parse(saved);
+      } else {
+        VOCABULARY.forEach(item => {
+          userState[item.id] = {
+            level: 0,
+            due: Date.now() - 1000,
+            reps: 0
+          };
+        });
+        saveData();
+      }
+      updateStatusBadge();
+    }
+
+    function saveData() {
+      localStorage.setItem("lexi_note_state", JSON.stringify(userState));
+      updateStatusBadge();
+    }
+
+    function resetDatabase() {
+      if (confirm("Вы уверены, что хотите сбросить весь прогресс обучения?")) {
+        localStorage.removeItem("lexi_note_state");
+        initData();
+        renderStatsTable();
+        loadSRSCard();
+      }
+    }
+
+    function updateStatusBadge() {
+      const now = Date.now();
+      const dueCount = Object.values(userState).filter(s => s.due <= now).length;
+      document.getElementById("srs-status").innerText = `На повторение: ${dueCount} слов`;
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      
+      event.target.classList.add("active");
+      document.getElementById("view-" + tab).classList.add("active");
+
+      if (tab === 'srs') loadSRSCard();
+      if (tab === 'speaking') loadSpeaking();
+      if (tab === 'write') loadWriting();
+      if (tab === 'quiz') loadQuiz();
+      if (tab === 'list') renderStatsTable();
+    }
+
+    // --- TAB 1: SRS ---
+    let currentSRSItem = null;
+
+    function loadSRSCard() {
+      const cardEl = document.getElementById("srs-card");
+      cardEl.classList.remove("is-flipped");
+
+      const now = Date.now();
+      let dueList = VOCABULARY.filter(item => userState[item.id].due <= now)
+                              .sort((a, b) => userState[a.id].due - userState[b.id].due);
+
+      if (dueList.length === 0) {
+        dueList = [...VOCABULARY].sort((a,b) => userState[a.id].level - userState[b.id].level);
+      }
+
+      currentSRSItem = dueList[0];
+      document.getElementById("srs-term").innerText = currentSRSItem.word;
+      document.getElementById("srs-type").innerText = currentSRSItem.pos;
+      document.getElementById("srs-def").innerText = currentSRSItem.def;
+      document.getElementById("srs-ex").innerText = `"${currentSRSItem.ex}"`;
+    }
+
+    function flipCard(scene) {
+      scene.querySelector(".card").classList.toggle("is-flipped");
+    }
+
+    function gradeWord(grade) {
+      if (!currentSRSItem) return;
+      const s = userState[currentSRSItem.id];
+      if (grade === 1) {
+        s.level = 0;
+        s.due = Date.now() + INTERVALS[0];
+      } else {
+        s.level = Math.min(s.level + 1, INTERVALS.length - 1);
+        s.due = Date.now() + INTERVALS[s.level];
+        s.reps += 1;
+      }
+      saveData();
+      loadSRSCard();
+    }
+
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const cleanText = text.replace(/^to\s+/i, '');
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    function speakCurrentWord() {
+      if (currentSRSItem) speakText(currentSRSItem.word);
+    }
+
+    // --- TAB 2: SPEAKING ---
+    let spkIndex = 0;
+    function loadSpeaking() {
+      const item = VOCABULARY[spkIndex];
+      document.getElementById("spk-target").innerText = `${item.word} (${item.pos})`;
+      document.getElementById("spk-task").innerText = item.task;
+      document.getElementById("spk-hint").innerText = `Значение: ${item.def} | Контекст: "${item.ex}"`;
+    }
+
+    function nextSpeakingPrompt() {
+      spkIndex = (spkIndex + 1) % VOCABULARY.length;
+      loadSpeaking();
+    }
+
+    // --- TAB 3: WRITING ---
+    let currentWriteItem = null;
+    function loadWriting() {
+      currentWriteItem = VOCABULARY[Math.floor(Math.random() * VOCABULARY.length)];
+      document.getElementById("write-def").innerText = currentWriteItem.def;
+      const cleanTarget = currentWriteItem.word.replace(/^to\s+/i, '');
+      document.getElementById("write-hint").innerText = `Начало: "${cleanTarget[0]}..." (символов: ${cleanTarget.length})`;
+      const inp = document.getElementById("write-input");
+      inp.value = "";
+      inp.style.borderColor = "var(--border)";
+      document.getElementById("write-feedback").innerText = "";
+      inp.focus();
+    }
+
+    function checkWriting() {
+      const val = document.getElementById("write-input").value.trim().toLowerCase();
+      const fb = document.getElementById("write-feedback");
+      const inp = document.getElementById("write-input");
+
+      const correctRaw = currentWriteItem.word.toLowerCase();
+      const correctClean = correctRaw.replace(/^to\s+/i, '');
+
+      // Allow answer either with or without 'to'
+      if (val === correctRaw || val === correctClean || (currentWriteItem.word === "solve / solution" && (val === "solve" || val === "solution" || val === "solve / solution"))) {
+        fb.style.color = "var(--success)";
+        fb.innerText = "Верно! Превосходно.";
+        inp.style.borderColor = "var(--success)";
+        speakText(currentWriteItem.word);
+        gradeWordDirect(currentWriteItem.id, true);
+        setTimeout(loadWriting, 1200);
+      } else {
+        fb.style.color = "var(--danger)";
+        fb.innerText = `Ошибка. Правильно: "${currentWriteItem.word}"`;
+        inp.style.borderColor = "var(--danger)";
+        gradeWordDirect(currentWriteItem.id, false);
+      }
+    }
+
+    function speakCurrentWriteWord() {
+      if (currentWriteItem) speakText(currentWriteItem.word);
+    }
+
+    function gradeWordDirect(id, success) {
+      const s = userState[id];
+      if (success) {
+        s.level = Math.min(s.level + 1, INTERVALS.length - 1);
+        s.due = Date.now() + INTERVALS[s.level];
+      } else {
+        s.level = 0;
+        s.due = Date.now() + INTERVALS[0];
+      }
+      saveData();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("write-input").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") checkWriting();
+      });
+    });
+
+    // --- TAB 4: QUIZ ---
+    let currentQuizItem = null;
+    function loadQuiz() {
+      currentQuizItem = VOCABULARY[Math.floor(Math.random() * VOCABULARY.length)];
+      document.getElementById("quiz-question").innerText = currentQuizItem.word;
+      document.getElementById("quiz-feedback").innerText = "";
+
+      let options = [currentQuizItem.def];
+      while (options.length < 4) {
+        let rand = VOCABULARY[Math.floor(Math.random() * VOCABULARY.length)].def;
+        if (!options.includes(rand)) options.push(rand);
+      }
+      options.sort(() => Math.random() - 0.5);
+
+      const cont = document.getElementById("quiz-options");
+      cont.innerHTML = "";
+      options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.innerText = opt;
+        btn.onclick = () => selectOption(btn, opt);
+        cont.appendChild(btn);
+      });
+    }
+
+    function selectOption(btn, text) {
+      const fb = document.getElementById("quiz-feedback");
+      const buttons = document.querySelectorAll(".option-btn");
+      buttons.forEach(b => b.disabled = true);
+
+      if (text === currentQuizItem.def) {
+        btn.classList.add("correct");
+        fb.style.color = "var(--success)";
+        fb.innerText = "Правильно!";
+        gradeWordDirect(currentQuizItem.id, true);
+      } else {
+        btn.classList.add("wrong");
+        buttons.forEach(b => { if (b.innerText === currentQuizItem.def) b.classList.add("correct"); });
+        fb.style.color = "var(--danger)";
+        fb.innerText = "Неверно!";
+        gradeWordDirect(currentQuizItem.id, false);
+      }
+      setTimeout(loadQuiz, 1400);
+    }
+
+    // --- TAB 5: STATS TABLE ---
+    function renderStatsTable() {
+      const tbody = document.getElementById("stats-body");
+      tbody.innerHTML = "";
+      const now = Date.now();
+
+      VOCABULARY.forEach(item => {
+        const s = userState[item.id];
+        const tr = document.createElement("tr");
+
+        let timeLeft = s.due - now;
+        let dueStr = "";
+        if (timeLeft <= 0) {
+          dueStr = "<span style='color: var(--danger); font-weight:600;'>Сейчас</span>";
+        } else if (timeLeft < 3600000) {
+          dueStr = `${Math.ceil(timeLeft / 60000)} мин.`;
+        } else if (timeLeft < 86400000) {
+          dueStr = `${Math.ceil(timeLeft / 3600000)} ч.`;
+        } else {
+          dueStr = `${Math.ceil(timeLeft / 86400000)} дн.`;
+        }
+
+        tr.innerHTML = `
+          <td><strong>${item.word}</strong></td>
+          <td>${item.def}</td>
+          <td>Уровень ${s.level}</td>
+          <td>${dueStr}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    initData();
+    loadSRSCard();
+  </script>
+</body>
+</html>
