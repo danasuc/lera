@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete First / ЕГЭ • Unit 5: Study Time</title>
+    <style>
+        :root {
+            --bg-color: #0b1120;
+            --card-bg: #161f30;
+            --subcard-bg: #1e293b;
+            --border-color: #334155;
+            --text-main: #cbd5e1;
+            --text-bright: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-cyan: #22d3ee;
+            --accent-purple: #c084fc;
+            --accent-amber: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .header-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 34px 24px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .header-card h1 {
+            color: var(--text-bright);
+            font-size: 2.1rem;
+            margin-bottom: 8px;
+        }
+
+        .header-card p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+        }
+
+        .section-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section-title {
+            color: var(--accent-cyan);
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .exercise {
+            background-color: var(--subcard-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .exercise-title {
+            color: var(--text-bright);
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .instruction {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            margin-bottom: 14px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        li {
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .vocab-table th, .vocab-table td {
+            text-align: left;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.93rem;
+        }
+
+        .vocab-table th {
+            color: var(--accent-blue);
+            background-color: rgba(56, 189, 248, 0.08);
+            font-weight: 600;
+        }
+
+        .vocab-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .word {
+            font-weight: 600;
+            color: var(--text-bright);
+        }
+
+        .text-box {
+            background-color: #0f172a;
+            border-left: 4px solid var(--accent-blue);
+            padding: 16px;
+            border-radius: 4px;
+            font-size: 0.94rem;
+            line-height: 1.65;
+            margin-bottom: 14px;
+        }
+
+        .text-box p {
+            margin-bottom: 10px;
+        }
+
+        .text-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .theory-box {
+            background: rgba(192, 132, 252, 0.07);
+            border: 1px solid rgba(192, 132, 252, 0.3);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 14px;
+        }
+
+        .theory-box h4 {
+            color: #d8b4fe;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .exam-tag {
+            display: inline-block;
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] {
+            background-color: #0b1120;
+            border: 1px solid var(--border-color);
+            color: #f8fafc;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-blue);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header-card">
+        <span class="badge">EGE / Cambridge First Preparation • Unit 5</span>
+        <h1>Study Time: Education & Exchanges</h1>
+        <p>Topic Vocabulary & Phrasal Verbs • Conditionals (Zero, 1st, 2nd) & Word Formation</p>
+    </div>
+
+    <!-- 1. WARM-UP -->
+    <div class="section-card">
+        <div class="section-title">1. Warm-Up</div>
+
+        <div class="exercise">
+            <div class="exercise-title">Exercise 1.1: Academic Life Discussion</div>
+            <div class="instruction">Answer these questions with your tutor:</div>
+            <ul>
+                <li>Which school subject has prepared you the most for real adult life? Why?</li>
+                <li>Do you prefer studying alone in total silence or with background music / with peers?</li>
+                <li>If you were given a full scholarship to spend a school term abroad, which country would you choose?</li>
+            </ul>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-title">Exercise 1.2: Confusing Words in Action</div>
+            <div class="instruction">Choose the correct verb in each context:</div>
+            <ol>
+                <li>Next month our class will (<i>attend / participate</i>) a major lecture at the city university. &rarr; <input type="text" placeholder="..."></li>
+                <li>I really want to (<i>find out / get to know</i>) my new classmates before the semester starts. &rarr; <input type="text" placeholder="..."></li>
+                <li>Our English teacher likes to (<i>assist / join</i>) students with exam strategies. &rarr; <input type="text" placeholder="..."></li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 2. VOCABULARY -->
+    <div class="section-card">
+        <div class="section-title">2. Vocabulary: Education & Phrasal Verbs</div>
+
+        <div class="exercise">
+            <div class="exercise-title">Vocabulary & Phrasal Verbs Table</div>
+            <div class="instruction">Study the definitions and exam phrasal verbs for Unit 5:</div>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>Verb / Phrase</th>
+                        <th>Translation</th>
+                        <th>Meaning / Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="word">get over</td>
+                        <td>оправиться, пережить</td>
+                        <td>recover from an illness or disappointment</td>
+                    </tr>
+                    <tr>
+                        <td class="word">live up to</td>
+                        <td>оправдать (ожидания)</td>
+                        <td>be as good as something was expected to be</td>
+                    </tr>
+                    <tr>
+                        <td class="word">get away with</td>
+                        <td>сойти с рук, остаться безнаказанным</td>
+                        <td>succeed in avoiding punishment for doing wrong</td>
+                    </tr>
+                    <tr>
+                        <td class="word">point out</td>
+                        <td>указать, обратить внимание</td>
+                        <td>tell someone a fact / direct attention to it</td>
+                    </tr>
+                    <tr>
+                        <td class="word">put off</td>
+                        <td>откладывать (на потом)</td>
+                        <td>postpone, delay an event or activity</td>
+                    </tr>
+                    <tr>
+                        <td class="word">turn out</td>
+                        <td>оказаться в итоге</td>
+                        <td>be discovered to be, develop in a particular way</td>
+                    </tr>
+                    <tr>
+                        <td class="word">look back (on)</td>
+                        <td>оглядываться назад, вспоминать</td>
+                        <td>think about something that happened in the past</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Vocab Practice 1 -->
+        <div class="exercise">
+            <div class="exercise-title">Exercise 2.1: Phrasal Verbs in Context</div>
+            <div class="instruction">Fill in the gaps with the correct form of phrasal verbs from the table:</div>
+            <ol>
+                <li>Franz hates writing essays and tries to _________ writing them till the last night.</li>
+                <li>I don't know how she managed to _________ copying her project from Wikipedia!</li>
+                <li>Julia worked really hard, so she hopes she will soon _________ the disappointment of getting a low mark.</li>
+                <li>The mock exam _________ to be much easier than we had expected.</li>
+                <li>When older people _________ on their school days, they often realize they should have worked harder.</li>
+            </ol>
+        </div>
+
+        <!-- Vocab Practice 2 -->
+        <div class="exercise">
+            <div class="exercise-title">Exercise 2.2: Dependent Prepositions & Collocations</div>
+            <div class="instruction">Choose the appropriate preposition to complete the academic collocation:</div>
+            <ol>
+                <li>She decided to apply (<i>for / on / to</i>) admission (<i>in / to / at</i>) the Faculty of History.</li>
+                <li>Meeting minimum course requirements is essential (<i>for / with / by</i>) every applicant.</li>
+                <li>Good degree results significantly improve your job prospects (<i>in / for / on</i>) the future.</li>
+            </ol>
+        </div>
+
+        <!-- Vocab Practice 3 -->
+        <div class="exercise">
+            <div class="exercise-title">Exercise 2.3: Word Formation (ЕГЭ / FCE Task 3)</div>
+            <span class="exam-tag">Task 25–29 / R&U Part 3</span>
+            <div class="instruction">Use the word in capitals to form a word that fits the gap:</div>
+            <ol>
+                <li>Students planning to study abroad often have to make a number of cultural _________ . [<b>ADJUST</b>] &rarr; <input type="text"></li>
+                <li>Meeting locals allows teenagers to develop genuine _________ . [<b>FRIEND</b>] &rarr; <input type="text"></li>
+                <li>There is a wide _________ of language clubs you can attend after school. [<b>VARY</b>] &rarr; <input type="text"></li>
+                <li>Teachers often judge teenagers by their classroom _________ . [<b>BEHAVE</b>] &rarr; <input type="text"></li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 3. READING -->
+    <div class="section-card">
+        <div class="section-title">3. Reading: At School Abroad</div>
+
+        <div class="text-box">
+            <p><strong>A. Divya (went to Chile):</strong><br>
+            I went to a talk given by students who had been on an exchange programme. It occurred to me that if I could persuade my mum, this would be just the sort of break from normal school routine that I needed! Soon I was immersed in a completely different educational culture, which helped me appreciate many aspects of my school back home. Another great advantage was that I picked up Spanish quickly.</p>
+            
+            <p><strong>B. Nelson (went to New Zealand):</strong><br>
+            I lived on a farm with a vast flock of sheep. Being a city boy, the experience was totally novel. We was totally reliant on each other. I also looked forward to going to school every day. I took part in lots of sporting activities and made lifelong friends. I'm not so dependent now on my family or teachers to make me study, and I learned to get on with all sorts of people.</p>
+            
+            <p><strong>C. Bruce (went to England):</strong><br>
+            My parents insisted that I went, knowing what a sacrifice they were making to pay for it. What I found hardest to get used to were the gloomy days of grey drizzle and early darkness in winter. Even so, I took every chance to meet people and soak up the English life. I worked hard to get good grades, although I found the schoolwork challenging.</p>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-title">Exercise 3.1: Multiple Matching (ЕГЭ Задание 11 / FCE Part 7)</div>
+            <span class="exam-tag">Multiple Matching</span>
+            <div class="instruction">Which student mentions: (A, B, or C)?</div>
+            <ol>
+                <li>feeling a strong responsibility to make the most of the exchange due to family effort? &rarr; [ <input type="text" size="4"> ]</li>
+                <li>becoming more independent in their attitude towards learning? &rarr; [ <input type="text" size="4"> ]</li>
+                <li>realising that they actually valued aspects of their everyday school at home? &rarr; [ <input type="text" size="4"> ]</li>
+                <li>finding bad weather conditions difficult to cope with? &rarr; [ <input type="text" size="4"> ]</li>
+            </ol>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-title">Exercise 3.2: Vocabulary in Context</div>
+            <div class="instruction">Find words or phrases in paragraphs A–C that match these definitions:</div>
+            <ol>
+                <li>Deeply involved in an environment or language (Text A): &rarr; <input type="text"></li>
+                <li>Completely new and unfamiliar (Text B): &rarr; <input type="text"></li>
+                <li>Light, continuous fine rain (Text C): &rarr; <input type="text"></li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 4. GRAMMAR -->
+    <div class="section-card">
+        <div class="section-title">4. Grammar: Zero, 1st & 2nd Conditionals + Unless</div>
+
+        <div class="theory-box">
+            <h4>Grammar Breakdown: Conditionals in Exam Tasks</h4>
+            <p><strong>• Zero Conditional:</strong> Facts & universal truths &rarr; <i>If + Present Simple, Present Simple</i><br>
+            <em>If you heat water to 100°C, it boils.</em></p>
+            <br>
+            <p><strong>• 1st Conditional:</strong> Real future situations &rarr; <i>If + Present Simple, will / can / might + V1</i><br>
+            <em>If your tutor has to cancel a tutorial, he will let you know beforehand.</em></p>
+            <br>
+            <p><strong>• 2nd Conditional:</strong> Imaginary / improbable situations &rarr; <i>If + Past Simple, would / could + V1</i><br>
+            <em>If I lived in Italy, I would learn how Italians live and think.</em></p>
+            <br>
+            <p><strong>• Unless = If not:</strong><br>
+            <em>You cannot join the club <b>unless</b> you pay the fee (= if you do not pay).</em></p>
+        </div>
+
+        <!-- Grammar Ex 1 -->
+        <div class="exercise">
+            <div class="exercise-title">Exercise 4.1: Conditional Matching</div>
+            <div class="instruction">Match each conditional beginning (1–4) with its logical ending (a–d):</div>
+            <ol>
+                <li>If you speak a bit of the language, ... &rarr; [ <input type="text" size="3"> ]</li>
+                <li>If I went to university in Australia, ... &rarr; [ <input type="text" size="3"> ]</li>
+                <li>If students come to class regularly, ... &rarr; [ <input type="text" size="3"> ]</li>
+                <li>I'll have to buy the textbook ... &rarr; [ <input type="text" size="3"> ]</li>
+            </ol>
+            <p style="margin-top:10px; color: var(--text-muted); font-size: 0.9rem;">
+                <b>a.</b> they usually get good results.<br>
+                <b>b.</b> it's much easier to make friends.<br>
+                <b>c.</b> unless I can find it second-hand in the library.<br>
+                <b>d.</b> I'd travel around the country during breaks.
+            </p>
+        </div>
+
+        <!-- Grammar Ex 2 -->
+        <div class="exercise">
+            <div class="exercise-title">Exercise 4.2: Open Cloze / Verb Forms</div>
+            <div class="instruction">Put the verb in brackets into the correct form (1st or 2nd Conditional):</div>
+            <ol>
+                <li>If she _________ (study) medicine, she would need to spend at least six years at university.</li>
+                <li>Unless the weather _________ (get) worse, we will organise the sports day outdoors.</li>
+                <li>What would you do if your host family _________ (not speak) any English at all?</li>
+                <li>If you _________ (not pass) the entrance exam, can you retake it in autumn?</li>
+            </ol>
+        </div>
+
+        <!-- Grammar Ex 3 -->
+        <div class="exercise">
+            <div class="exercise-title">Exercise 4.3: Key Word Transformation</div>
+            <span class="exam-tag">Use of English Part 4</span>
+            <div class="instruction">Complete the second sentence so that it has a similar meaning. Use 2 to 5 words including the word in bold:</div>
+            <ol>
+                <li>We will not be able to finish the project without your help.<br>
+                <strong>ASSIST</strong><br>
+                Unless _________________________________ project, we will not be able to finish it.</li>
+                
+                <li>You cannot use the gym unless you become a member of the sports club.<br>
+                <strong>JOIN</strong><br>
+                You can only use the gym _________________________________ the sports club.</li>
+
+                <li>Stella will not participate in the debate because she is ill.<br>
+                <strong>PART</strong><br>
+                If Stella was not feeling ill, she _________________________________ the debate.</li>
+            </ol>
+        </div>
+
+        <!-- Grammar Ex 4 -->
+        <div class="exercise">
+            <div class="exercise-title">Exercise 4.4: Error Correction</div>
+            <div class="instruction">Find and correct the conditional mistake in each line:</div>
+            <ol>
+                <li>If I will have any free time tomorrow, I will call you back. &rarr; <input type="text" style="width: 80%;"></li>
+                <li>If I live near my school, I would go there on foot every morning. &rarr; <input type="text" style="width: 80%;"></li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 5. SPEAKING -->
+    <div class="section-card">
+        <div class="section-title">5. Speaking (ЕГЭ / Cambridge Interview)</div>
+
+        <div class="exercise">
+            <div class="exercise-title">Task 5.1: Interview Questions (ЕГЭ Устная часть — Задание 3)</div>
+            <div class="instruction">Give full answers (2–3 sentences each) without long pauses:</div>
+            <ul>
+                <li>What is your favourite subject at school and why?</li>
+                <li>How important is it for modern students to know at least one foreign language?</li>
+                <li>If you could change one thing about your school timetable or exams, what would it be?</li>
+            </ul>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-title">Task 5.2: Student Exchange Dilemma</div>
+            <div class="instruction">Discuss with your tutor:</div>
+            <ul>
+                <li>Imagine a 16-year-old friend is offered an exchange term in an English-speaking country, but they are afraid of feeling homesick and failing their regular exams back home.</li>
+                <li>Use 1st and 2nd Conditionals to give advice: <i>"If you go...", "If I were in your shoes, I would...", "Unless you try..."</i>.</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
