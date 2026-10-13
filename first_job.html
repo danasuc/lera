@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EGE Preparation • Unit 6: My First Job</title>
+    <style>
+        :root {
+            --bg-color: #0b1120;
+            --card-bg: #161f30;
+            --subcard-bg: #1e293b;
+            --border-color: #334155;
+            --text-main: #cbd5e1;
+            --text-bright: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-cyan: #22d3ee;
+            --accent-purple: #c084fc;
+            --accent-amber: #f59e0b;
+            --accent-emerald: #3fb950;
+            --accent-crimson: #f85149;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .header-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 34px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue), var(--accent-purple));
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .header-card h1 {
+            color: var(--text-bright);
+            font-size: 2.1rem;
+            margin-bottom: 8px;
+        }
+
+        .header-card p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+        }
+
+        .section-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .svg-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            color: var(--accent-cyan);
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            color: var(--accent-cyan);
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .exercise {
+            background-color: var(--subcard-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .exercise-title {
+            color: var(--text-bright);
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .instruction {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+        }
+
+        .instruction em {
+            color: var(--accent-amber);
+            font-style: normal;
+        }
+
+        .exam-tag {
+            display: inline-block;
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            margin-bottom: 6px;
+            align-self: flex-start;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        li {
+            font-size: 0.95rem;
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .vocab-table th, .vocab-table td {
+            text-align: left;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.93rem;
+        }
+
+        .vocab-table th {
+            color: var(--accent-blue);
+            background-color: rgba(56, 189, 248, 0.08);
+            font-weight: 600;
+        }
+
+        .vocab-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .word {
+            font-weight: 600;
+            color: var(--text-bright);
+        }
+
+        .text-box {
+            background-color: #0f172a;
+            border-left: 4px solid var(--accent-blue);
+            padding: 18px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .text-box p {
+            margin-bottom: 12px;
+        }
+
+        .text-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .theory-box {
+            background: rgba(192, 132, 252, 0.07);
+            border: 1px solid rgba(192, 132, 252, 0.3);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 10px;
+        }
+
+        .theory-box h4 {
+            color: #d8b4fe;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .options-list {
+            list-style: none;
+            padding-left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .options-list label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.92rem;
+            color: var(--text-main);
+        }
+
+        .options-list label:hover {
+            color: var(--text-bright);
+        }
+
+        input[type="text"] {
+            background-color: #0b1120;
+            border: 1px solid var(--border-color);
+            color: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-size: 0.92rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
+        }
+
+        input[type="text"].correct {
+            border-color: var(--accent-emerald) !important;
+            background-color: rgba(63, 185, 80, 0.12) !important;
+        }
+
+        input[type="text"].incorrect {
+            border-color: var(--accent-crimson) !important;
+            background-color: rgba(248, 81, 73, 0.12) !important;
+        }
+
+        textarea {
+            width: 100%;
+            background-color: #0b1120;
+            border: 1px solid var(--border-color);
+            color: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.93rem;
+            font-family: inherit;
+            outline: none;
+            resize: vertical;
+            min-height: 90px;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        .btn-check {
+            align-self: flex-start;
+            background-color: #1e293b;
+            color: var(--text-bright);
+            border: 1px solid var(--border-color);
+            padding: 8px 18px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 4px;
+        }
+
+        .btn-check:hover {
+            background-color: #334155;
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .feedback-msg {
+            font-size: 0.88rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .feedback-msg.show {
+            display: block;
+        }
+
+        .feedback-msg.good {
+            color: var(--accent-emerald);
+        }
+
+        .feedback-msg.bad {
+            color: var(--accent-crimson);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header-card">
+        <span class="badge">EGE Preparation • Complete First Unit 6</span>
+        <h1>My First Job: Teenagers in the Workplace</h1>
+        <p>Confusable Words & Collocations • Countable vs Uncountable Nouns in Work Context • EGE Tasks 25–29, 30–36, 12–18 & Speaking</p>
+    </div>
+
+    <!-- 1. WARM UP -->
+    <div class="section-card">
+        <div class="section-header">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <div class="section-title">1. Warm-Up</div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-title">Exercise 1.1: Discussion & Brainstorming</div>
+            <div class="instruction">Answer the questions with your tutor using 2–3 full sentences:</div>
+            <ul>
+                <li>Which part-time jobs (e.g., waiter, babysitter, shop assistant, delivery courier) are most popular among students in Russia?</li>
+                <li>Which job would suit you best during your summer holidays, and which would suit you least? Explain why.</li>
+            </ul>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-title">Exercise 1.2: Categorisation (Advantages vs Challenges)</div>
+            <div class="instruction">Categorize each factor as <b>ADV</b> (Advantage) or <b>CHAL</b> (Challenge):</div>
+            <ol>
+                <li>Gaining financial independence from parents &rarr; [ <input type="text" size="5" data-ans="adv" placeholder="..."> ]</li>
+                <li>Dealing with rude or demanding customers &rarr; [ <input type="text" size="5" data-ans="chal" placeholder="..."> ]</li>
+                <li>Developing time-management and communication skills &rarr; [ <input type="text" size="5" data-ans="adv" placeholder="..."> ]</li>
+                <li>Feeling physically exhausted after a long shift &rarr; [ <input type="text" size="5" data-ans="chal" placeholder="..."> ]</li>
+                <li>Balancing school studies and work responsibilities &rarr; [ <input type="text" size="5" data-ans="chal" placeholder="..."> ]</li>
+                <li>Enhancing your CV for future career prospects &rarr; [ <input type="text" size="5" data-ans="adv" placeholder="..."> ]</li>
+            </ol>
+            <button class="btn-check" onclick="checkTask(this)">Check Answers</button>
+            <div class="feedback-msg"></div>
+        </div>
+    </div>
+
+    <!-- 2. VOCABULARY -->
+    <div class="section-card">
+        <div class="section-header">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+            <div class="section-title">2. Vocabulary: Employment & Confusable Words</div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-title">Word List & Collocations</div>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>Word / Phrase</th>
+                        <th>Translation</th>
+                        <th>Context / Grammar Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="word">job [c]</td>
+                        <td>работа, должность</td>
+                        <td>Countable: <i>a job, two jobs</i></td>
+                    </tr>
+                    <tr>
+                        <td class="word">work [un]</td>
+                        <td>работа, труд</td>
+                        <td>Uncountable: <i>hard work, look for work</i></td>
+                    </tr>
+                    <tr>
+                        <td class="word">opportunity</td>
+                        <td>возможность, шанс</td>
+                        <td>Convenient time or chance to take action</td>
+                    </tr>
+                    <tr>
+                        <td class="word">possibility</td>
+                        <td>вероятность</td>
+                        <td>Hypothetical chance that something might happen</td>
+                    </tr>
+                    <tr>
+                        <td class="word">occasion</td>
+                        <td>повод, случай, событие</td>
+                        <td>Special event or particular instance</td>
+                    </tr>
+                    <tr>
+                        <td class="word">fun vs funny</td>
+                        <td>веселье vs смешной</td>
+                        <td><i>fun</i> = enjoyable activity; <i>funny</i> = causing laughter/strange</td>
+                    </tr>
+                    <tr>
+                        <td class="word">demanding / challenging</td>
+                        <td>требующий усилий, сложный</td>
+                        <td>Requires immense concentration or physical effort</td>
+                    </tr>
+                    <tr>
+                        <td class="word">worthwhile</td>
+                        <td>стоящий затраченных усилий</td>
+                        <td>Rewarding and meaningful experience</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Vocab 1: Confusable words -->
+        <div class="exercise">
+            <span class="exam-tag">EGE Tasks 30–36 Format</span>
+            <div class="exercise-title">Exercise 2.1: Confusable Words</div>
+            <div class="instruction">Choose the correct option:</div>
+            <ol>
+                <li>It isn't a very well-paid (<i>job / work</i>), but it gives me valuable experience. &rarr; <input type="text" data-ans="job" placeholder="..."></li>
+                <li>Young employees have a great (<i>possibility / occasion / opportunity</i>) to learn from senior specialists. &rarr; <input type="text" data-ans="opportunity" placeholder="..."></li>
+                <li>On some (<i>possibilities / occasions / opportunities</i>), I was asked to take charge of the office. &rarr; <input type="text" data-ans="occasions" placeholder="..."></li>
+                <li>Working as a lifeguard was real (<i>fun / funny</i>), even though the shifts were long. &rarr; <input type="text" data-ans="fun" placeholder="..."></li>
+                <li>He tried to be (<i>fun / funny</i>), but none of the clients laughed at his jokes. &rarr; <input type="text" data-ans="funny" placeholder="..."></li>
+                <li>She is hoping to finish university and find (<i>job / work</i>) in the IT industry. &rarr; <input type="text" data-ans="work" placeholder="..."></li>
+            </ol>
+            <button class="btn-check" onclick="checkTask(this)">Check Answers</button>
+            <div class="feedback-msg"></div>
+        </div>
+
+        <!-- Vocab 2: Adjective Collocations -->
+        <div class="exercise">
+            <div class="exercise-title">Exercise 2.2: Adjective Collocations</div>
+            <div class="instruction">Fill in the gaps using: <em>[demanding, temporary, well-paid, worthwhile, outdoor]</em></div>
+            <ol>
+                <li>Working in agriculture during the fruit-harvesting season is mostly an ___________ job. &rarr; <input type="text" data-ans="outdoor" placeholder="..."></li>
+                <li>Being an air-traffic controller is very ___________, as it requires maximum concentration. &rarr; <input type="text" data-ans="demanding" placeholder="..."></li>
+                <li>A ___________ contract usually lasts for a few months during the peak tourist season. &rarr; <input type="text" data-ans="temporary" placeholder="..."></li>
+                <li>Volunteering at a local hospital is a ___________ experience because you help people in need. &rarr; <input type="text" data-ans="worthwhile" placeholder="..."></li>
+                <li>High-tech specialists usually expect a highly ___________ job after graduation. &rarr; <input type="text" data-ans="well-paid|well paid" placeholder="..."></li>
+            </ol>
+            <button class="btn-check" onclick="checkTask(this)">Check Answers</button>
+            <div class="feedback-msg"></div>
+        </div>
+
+        <!-- Vocab 3: Word Formation -->
+        <div class="exercise">
+            <span class="exam-tag">EGE Tasks 25–29 Format</span>
+            <div class="exercise-title">Exercise 2.3: Word Formation</div>
+            <div class="instruction">Transform the words in brackets to fit the context:</div>
+            <ol>
+                <li>Future ___________ prefer to see relevant work experience on a student's CV. [<b>EMPLOY</b>] &rarr; <input type="text" data-ans="employers" placeholder="..."></li>
+                <li>Part-time work teaches teenagers how to behave ___________ with clients. [<b>PROFESSIONAL</b>] &rarr; <input type="text" data-ans="professionally" placeholder="..."></li>
+                <li>Taking on a first job helps young people develop a sense of ___________ . [<b>RESPONSIBLE</b>] &rarr; <input type="text" data-ans="responsibility" placeholder="..."></li>
+                <li>Working as a sales ___________ requires high adaptability and patience. [<b>REPRESENT</b>] &rarr; <input type="text" data-ans="representative" placeholder="..."></li>
+                <li>Completing a difficult task brings immense personal ___________ . [<b>SATISFY</b>] &rarr; <input type="text" data-ans="satisfaction" placeholder="..."></li>
+            </ol>
+            <button class="btn-check" onclick="checkTask(this)">Check Answers</button>
+            <div class="feedback-msg"></div>
+        </div>
+    </div>
+
+    <!-- 3. READING -->
+    <div class="section-card">
+        <div class="section-header">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.5 1 5.5v15.5c1.45-1.1 3.55-1.5 5.5-1.5s4.05.4 5.5 1.5c1.45-1.1 3.55-1.5 5.5-1.5 1.17 0 2.39.15 3.5.5V5z"/></svg>
+            <div class="section-title">3. Reading: Lucy’s First Job</div>
+        </div>
+
+        <div class="text-box">
+            <p><strong>Paragraph 1.</strong> When I was just 16, my father bought an old guesthouse in our village and decided to turn it into a luxury hotel. At the early stages, he experimented with almost everything. None of our family had ever worked in a hotel before, but my dad had a clear vision of what guests would expect. His standards were uncompromisingly high, and he strongly believed that the key to achieving them was sheer hard work.</p>
+
+            <p><strong>Paragraph 2.</strong> My main role was working as a waitress in the hotel restaurant. Carrying heavy trays between the hot kitchen and the elegant dining room was physically demanding. The chef had a terrifying ability to lose his temper, so I always grabbed the dishes with an anxious expression, which I had to transform into a warm, welcoming smile the moment I walked out to the guests.</p>
+
+            <p><strong>Paragraph 3.</strong> To make my role more interesting, my father gave me a special task: preparing packed lunches for guests going on day trips and running the "Sweet Trolley" — a cart with freshly baked cakes and puddings. I experimented with traditional recipes and created new desserts. It was a wonderful opportunity to show creativity and receive direct feedback from the visitors.</p>
+
+            <p><strong>Paragraph 4.</strong> Working there taught me a lot about human behavior. Breakfast guests were usually relaxed and friendly, whereas evening diners were dressed up, talked in louder voices, and were much more demanding. Although the job was exhausting and poorly paid, looking back, I realize it gave me self-confidence and practical skills that proved invaluable in my adult life.</p>
+        </div>
+
+        <!-- Reading 1: Multiple choice -->
+        <div class="exercise">
+            <span class="exam-tag">EGE Tasks 12–18 Format</span>
+            <div class="exercise-title">Exercise 3.1: Multiple Choice Reading Comprehension</div>
+            <div class="instruction">Choose the correct option (A, B, C or D):</div>
+            
+            <div>
+                <p><b>1. What did all members of Lucy’s family have in common when the hotel opened?</b></p>
+                <ul class="options-list">
+                    <li><label><input type="radio" name="rc_q1" value="A"> A) They all had professional qualifications in hotel management.</label></li>
+                    <li><label><input type="radio" name="rc_q1" value="B"> B) They all lacked prior experience in the hotel business.</label></li>
+                    <li><label><input type="radio" name="rc_q1" value="C"> C) They all disagreed with the father's vision.</label></li>
+                    <li><label><input type="radio" name="rc_q1" value="D"> D) They had all worked as waitresses before.</label></li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 12px;">
+                <p><b>2. Why did Lucy find working in the kitchen stressful?</b></p>
+                <ul class="options-list">
+                    <li><label><input type="radio" name="rc_q2" value="A"> A) She had to clean all the cooking equipment herself.</label></li>
+                    <li><label><input type="radio" name="rc_q2" value="B"> B) The chef was short-tempered and the physical labor was hard.</label></li>
+                    <li><label><input type="radio" name="rc_q2" value="C"> C) The father constantly criticized her serving style.</label></li>
+                    <li><label><input type="radio" name="rc_q2" value="D"> D) Guests frequently returned the food to the kitchen.</label></li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 12px;">
+                <p><b>3. What was special about Lucy's extra responsibility?</b></p>
+                <ul class="options-list">
+                    <li><label><input type="radio" name="rc_q3" value="A"> A) She was in charge of room service and reservations.</label></li>
+                    <li><label><input type="radio" name="rc_q3" value="B"> B) She prepared packed lunches and created original desserts.</label></li>
+                    <li><label><input type="radio" name="rc_q3" value="C"> C) She managed the hotel's financial accounts.</label></li>
+                    <li><label><input type="radio" name="rc_q3" value="D"> D) She trained new kitchen assistants.</label></li>
+                </ul>
+            </div>
+
+            <button class="btn-check" onclick="checkRadioExercise()">Check Multiple Choice</button>
+            <div class="feedback-msg" id="rc_feedback"></div>
+        </div>
+
+        <!-- Reading 2: Fact checking -->
+        <div class="exercise">
+            <div class="exercise-title">Exercise 3.2: Text Comprehension & Fact Checking</div>
+            <div class="instruction">Answer concisely according to the text:</div>
+            <ol>
+                <li>How did the behavior of hotel guests differ between breakfast and evening dinner? &rarr; <input type="text" style="width: 80%;" data-ans="breakfast guests were relaxed while evening diners were demanding|breakfast guests relaxed, evening diners demanding" placeholder="..."></li>
+                <li>What long-term benefits did Lucy gain from her first job despite the difficulty and low pay? &rarr; <input type="text" style="width: 80%;" data-ans="self-confidence and practical skills|confidence and practical skills" placeholder="..."></li>
+            </ol>
+            <button class="btn-check" onclick="checkTask(this)">Check Answers</button>
+            <div class="feedback-msg"></div>
+        </div>
+    </div>
+
+    <!-- 4. GRAMMAR -->
+    <div class="section-card">
+        <div class="section-header">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.1.8-1.3-4.5-2.7V7z"/></svg>
+            <div class="section-title">4. Grammar: Countable & Uncountable Nouns in Work Context</div>
+        </div>
+
+        <div class="theory-box">
+            <h4>Grammar Breakdown: Job vs. Work & Uncountable Traps</h4>
+            <p><strong>• Job [Countable]:</strong> Refers to a specific role, occupation, or profession. Takes <i>a / an</i>, can be plural.<br>
+            <em>She applied for <b>a job</b> as a receptionist. / He has had three different <b>jobs</b>.</em></p>
+            <p><strong>• Work [Uncountable]:</strong> Refers to effort, employment, or general activity. Never takes <i>a</i> or plural <i>-s</i>.<br>
+            <em>He is looking for <b>work</b> in the city. (NOT: ~~a work~~, ~~works~~)</em></p>
+            <p><strong>• Key EGE Uncountables:</strong> <i>information, advice, accommodation, equipment, news, furniture, luggage</i>.<br>
+            Use <b>partitives</b> to express single units: <i>a piece of advice / information / news / equipment</i>.</p>
+        </div>
+
+        <!-- Grammar 1: Error correction -->
+        <div class="exercise">
+            <div class="exercise-title">Exercise 4.1: Error Correction</div>
+            <div class="instruction">Write the corrected word/phrase for the mistake, or write <b>CORRECT</b> if the sentence has no error:</div>
+            <ol>
+                <li>Could you please send me some informations regarding the summer vacancy? &rarr; <input type="text" data-ans="some information|information" placeholder="..."></li>
+                <li>The manager gave me an advice on how to improve my customer service skills. &rarr; <input type="text" data-ans="a piece of advice|advice|some advice" placeholder="..."></li>
+                <li>After weeks of searching, she finally found a work in a local bank. &rarr; <input type="text" data-ans="a job|work" placeholder="..."></li>
+                <li>The hotel provides comfortable accommodation for seasonal staff. &rarr; <input type="text" data-ans="correct" placeholder="..."></li>
+                <li>The news about your promotion is absolutely fantastic! &rarr; <input type="text" data-ans="correct" placeholder="..."></li>
+            </ol>
+            <button class="btn-check" onclick="checkTask(this)">Check Answers</button>
+            <div class="feedback-msg"></div>
+        </div>
+
+        <!-- Grammar 2: Quantifiers & Articles -->
+        <div class="exercise">
+            <div class="exercise-title">Exercise 4.2: Quantifiers & Articles</div>
+            <div class="instruction">Choose the correct grammatical form:</div>
+            <ol>
+                <li>I need (<i>a / some / an</i>) information about part-time job opportunities. &rarr; <input type="text" data-ans="some" placeholder="..."></li>
+                <li>Let me give you (<i>an advice / a piece of advice / some advices</i>) before your interview. &rarr; <input type="text" data-ans="a piece of advice" placeholder="..."></li>
+                <li>Working in construction requires (<i>a special equipment / special equipment / special equipments</i>). &rarr; <input type="text" data-ans="special equipment" placeholder="..."></li>
+                <li>She was thrilled to get (<i>a job / a work / work</i>) as a graphic designer. &rarr; <input type="text" data-ans="a job" placeholder="..."></li>
+            </ol>
+            <button class="btn-check" onclick="checkTask(this)">Check Answers</button>
+            <div class="feedback-msg"></div>
+        </div>
+
+        <!-- Grammar 3: Article Gap-Fill -->
+        <div class="exercise">
+            <div class="exercise-title">Exercise 4.3: Article Gap-Fill in Narrative</div>
+            <div class="instruction">Insert <b>a</b>, <b>an</b>, <b>the</b> or <b>-</b> (no article):</div>
+            <p style="line-height: 2;">
+                When I was 18, it was <b>1.</b> <input type="text" size="4" data-ans="the" placeholder="..."> first time I worked in <b>2.</b> <input type="text" size="4" data-ans="an" placeholder="..."> office. It was during <b>3.</b> <input type="text" size="4" data-ans="the" placeholder="..."> summer holidays. I thought it would be <b>4.</b> <input type="text" size="4" data-ans="a" placeholder="..."> good way of earning <b>5.</b> <input type="text" size="4" data-ans="a" placeholder="..."> bit of extra money before going to <b>6.</b> <input type="text" size="4" data-ans="-" placeholder="..."> university. I spent most of <b>7.</b> <input type="text" size="4" data-ans="the" placeholder="..."> day keying <b>8.</b> <input type="text" size="4" data-ans="-" placeholder="..."> data into the system. Although <b>9.</b> <input type="text" size="4" data-ans="the" placeholder="..."> job was quite tedious, I earned <b>10.</b> <input type="text" size="4" data-ans="a" placeholder="..."> decent salary.
+            </p>
+            <button class="btn-check" onclick="checkTask(this)">Check Answers</button>
+            <div class="feedback-msg"></div>
+        </div>
+
+        <!-- Grammar 4: Key word transformation -->
+        <div class="exercise">
+            <span class="exam-tag">Use of English / Transformations</span>
+            <div class="exercise-title">Exercise 4.4: Key Word Transformation (2 to 5 words)</div>
+            <div class="instruction">Complete the second sentence using the word in bold:</div>
+            <ol>
+                <li>
+                    He persuaded them to finish the project on time.<br>
+                    <strong>MANAGED</strong><br>
+                    He <input type="text" style="width: 65%;" data-ans="managed to persuade" placeholder="..."> them to finish the project on time.
+                </li>
+                <li>
+                    She gave me very helpful advice regarding my career.<br>
+                    <strong>PIECES</strong><br>
+                    She gave me <input type="text" style="width: 65%;" data-ans="helpful pieces of|some helpful pieces of" placeholder="..."> advice regarding my career.
+                </li>
+                <li>
+                    I haven't worked in a restaurant for three years.<br>
+                    <strong>SINCE</strong><br>
+                    It is three years <input type="text" style="width: 65%;" data-ans="since i worked|since i last worked" placeholder="..."> in a restaurant.
+                </li>
+            </ol>
+            <button class="btn-check" onclick="checkTask(this)">Check Answers</button>
+            <div class="feedback-msg"></div>
+        </div>
+    </div>
+
+    <!-- 5. SPEAKING -->
+    <div class="section-card">
+        <div class="section-header">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+            <div class="section-title">5. Speaking (EGE Format)</div>
+        </div>
+
+        <div class="exercise">
+            <span class="exam-tag">EGE Speaking Task 3</span>
+            <div class="exercise-title">Task 5.1: Simulated Electronic Assistant Interview</div>
+            <div class="instruction">Answer the 5 interviewer questions (40 seconds per question, 2–3 sentences each):</div>
+            <ol>
+                <li>What kind of part-time jobs are most common for teenagers in your country?</li>
+                <li>Why do many school students decide to get a job during their holidays?</li>
+                <li>What personal qualities are most important for someone working in customer service?</li>
+                <li>Do you agree that gaining work experience is more important for teenagers than earning money? Why?</li>
+                <li>What career would you like to pursue after finishing your education, and why?</li>
+            </ol>
+            <textarea id="speaking_t1_notes" placeholder="Tutor feedback and student response notes..."></textarea>
+        </div>
+
+        <div class="exercise">
+            <span class="exam-tag">EGE Speaking Task 4</span>
+            <div class="exercise-title">Task 5.2: Project Photo Comparison: «First Work Experience for Teenagers»</div>
+            <div class="instruction">
+                Imagine you are doing a project on <b>«First Work Experience for Teenagers»</b>.<br>
+                • <b>Photo 1:</b> Teenager working as a waiter in a cafe (indoor customer service).<br>
+                • <b>Photo 2:</b> Teenager working in a garden/park (outdoor manual labor).<br>
+                Deliver a coherent monologue covering the 4 project plan steps (12–15 sentences):
+            </div>
+            <ul>
+                <li><strong>1. Brief description:</strong> Give a concise description of both photos, justifying their choice for the project.</li>
+                <li><strong>2. Differences:</strong> Highlight two main differences related to the theme (indoor customer service vs outdoor physical labor).</li>
+                <li><strong>3. Pros & Cons:</strong> State one advantage and one disadvantage of both types of jobs.</li>
+                <li><strong>4. Personal preference:</strong> Express and explain which job you would prefer for your first work experience.</li>
+            </ul>
+            <textarea id="speaking_t2_notes" placeholder="Draft your response or jot down key linking phrases here..."></textarea>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // LocalStorage Auto-Save
+    document.addEventListener("DOMContentLoaded", () => {
+        // Text inputs & Textareas
+        const textFields = document.querySelectorAll("input[type='text'], textarea");
+        textFields.forEach((f, idx) => {
+            const saved = localStorage.getItem("ege_unit6_field_" + idx);
+            if (saved !== null) f.value = saved;
+            f.addEventListener("input", () => {
+                localStorage.setItem("ege_unit6_field_" + idx, f.value);
+            });
+        });
+
+        // Radio buttons (Multiple choice)
+        const radios = document.querySelectorAll("input[type='radio']");
+        radios.forEach(radio => {
+            const savedRadio = localStorage.getItem("ege_unit6_radio_" + radio.name);
+            if (savedRadio === radio.value) {
+                radio.checked = true;
+            }
+            radio.addEventListener("change", () => {
+                localStorage.setItem("ege_unit6_radio_" + radio.name, radio.value);
+            });
+        });
+    });
+
+    function cleanStr(s) {
+        return s.toLowerCase()
+                .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "")
+                .replace(/\s+/g, " ")
+                .trim();
+    }
+
+    // Input checking
+    function checkTask(btn) {
+        const container = btn.closest(".exercise");
+        const inputs = container.querySelectorAll("input[type='text']");
+        const feedback = container.querySelector(".feedback-msg");
+        let allOk = true;
+        let count = 0;
+
+        inputs.forEach(input => {
+            const possible = input.getAttribute("data-ans").split("|").map(cleanStr);
+            const val = cleanStr(input.value);
+            if (val.length > 0) count++;
+
+            if (possible.includes(val)) {
+                input.classList.remove("incorrect");
+                input.classList.add("correct");
+            } else {
+                input.classList.remove("correct");
+                input.classList.add("incorrect");
+                allOk = false;
+            }
+        });
+
+        feedback.classList.add("show");
+        if (allOk && count === inputs.length) {
+            feedback.className = "feedback-msg show good";
+            feedback.textContent = "All answers are correct! Well done.";
+        } else {
+            feedback.className = "feedback-msg show bad";
+            feedback.textContent = "Some answers are incorrect or missing. Check your spelling and try again.";
+        }
+    }
+
+    // Radio checking (Reading 3.1)
+    function checkRadioExercise() {
+        const key = { rc_q1: "B", rc_q2: "B", rc_q3: "B" };
+        let allCorrect = true;
+        let answered = 0;
+
+        for (const [name, correctVal] of Object.entries(key)) {
+            const selected = document.querySelector(`input[name="${name}"]:checked`);
+            if (selected) {
+                answered++;
+                if (selected.value !== correctVal) {
+                    allCorrect = false;
+                }
+            } else {
+                allCorrect = false;
+            }
+        }
+
+        const feedback = document.getElementById("rc_feedback");
+        feedback.classList.add("show");
+        if (allCorrect && answered === 3) {
+            feedback.className = "feedback-msg show good";
+            feedback.textContent = "All 3 Multiple Choice answers are correct! (1-B, 2-B, 3-B)";
+        } else {
+            feedback.className = "feedback-msg show bad";
+            feedback.textContent = "Some answers are incorrect. Review the text carefully!";
+        }
+    }
+</script>
+
+</body>
+</html>
