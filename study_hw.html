@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 5 • Study Time: Homework & Vocabulary Trainer</title>
+    <style>
+        :root {
+            --bg-color: #0b1120;
+            --card-bg: #161f30;
+            --subcard-bg: #1e293b;
+            --border-color: #334155;
+            --text-main: #cbd5e1;
+            --text-bright: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-cyan: #22d3ee;
+            --accent-purple: #c084fc;
+            --accent-amber: #f59e0b;
+            --accent-emerald: #3fb950;
+            --accent-crimson: #f85149;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 26px;
+        }
+
+        .header-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 28px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue), var(--accent-purple));
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        h1 {
+            color: var(--text-bright);
+            font-size: 2rem;
+            margin-bottom: 6px;
+        }
+
+        .tab-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .tab-btn {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-blue);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 9px 20px;
+            border-radius: 24px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-blue);
+            color: #0b1120;
+            font-weight: 700;
+            border-color: var(--accent-blue);
+        }
+
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        .section-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section-title {
+            color: var(--accent-cyan);
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .exercise {
+            background-color: var(--subcard-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .exercise-title {
+            color: var(--text-bright);
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .instruction {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+        }
+
+        .instruction em {
+            color: var(--accent-amber);
+            font-style: normal;
+        }
+
+        ol, ul {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        li {
+            font-size: 0.95rem;
+        }
+
+        .exam-tag {
+            display: inline-block;
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 7px;
+            border-radius: 4px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            margin-bottom: 4px;
+            align-self: flex-start;
+        }
+
+        input[type="text"] {
+            background-color: #0b1120;
+            border: 1px solid var(--border-color);
+            color: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        input[type="text"].correct {
+            border-color: var(--accent-emerald) !important;
+            background-color: rgba(63, 185, 80, 0.12) !important;
+        }
+
+        input[type="text"].incorrect {
+            border-color: var(--accent-crimson) !important;
+            background-color: rgba(248, 81, 73, 0.12) !important;
+        }
+
+        textarea {
+            width: 100%;
+            background-color: #0b1120;
+            border: 1px solid var(--border-color);
+            color: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            min-height: 110px;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .btn-check {
+            align-self: flex-start;
+            background-color: var(--card-bg);
+            color: var(--text-bright);
+            border: 1px solid var(--border-color);
+            padding: 8px 18px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 4px;
+        }
+
+        .btn-check:hover {
+            background-color: #2b394e;
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .feedback-msg {
+            font-size: 0.88rem;
+            display: none;
+        }
+
+        .feedback-msg.show {
+            display: block;
+        }
+
+        .feedback-msg.good {
+            color: var(--accent-emerald);
+        }
+
+        .feedback-msg.bad {
+            color: var(--accent-crimson);
+        }
+
+        /* Flashcard Styles */
+        .progress-box {
+            background: var(--subcard-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        .bar-outer {
+            width: 100%;
+            height: 8px;
+            background: #0b1120;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .bar-inner {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-emerald));
+            transition: width 0.3s ease;
+        }
+
+        .card-stage {
+            perspective: 1200px;
+            width: 100%;
+            height: 310px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: var(--card-bg);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: #111e33;
+            border-color: #233e66;
+        }
+
+        .card-word {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-bright);
+            margin-bottom: 8px;
+        }
+
+        .card-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-blue);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-translation {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--accent-emerald);
+            margin-bottom: 12px;
+        }
+
+        .card-example {
+            font-size: 0.98rem;
+            color: var(--text-main);
+            font-style: italic;
+            background: rgba(0,0,0,0.3);
+            padding: 10px 16px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-cyan);
+            max-width: 90%;
+        }
+
+        .card-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-card {
+            background: var(--subcard-bg);
+            color: var(--text-bright);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-card-learn {
+            background: rgba(248, 81, 73, 0.12);
+            color: #ff7b72;
+            border-color: rgba(248, 81, 73, 0.4);
+        }
+
+        .btn-card-know {
+            background: rgba(63, 185, 80, 0.15);
+            color: #3fb950;
+            border-color: rgba(63, 185, 80, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header-card">
+        <span class="badge">Independent Practice & Training</span>
+        <h1>Unit 5: Study Time Homework</h1>
+        <p>Phrasal Verbs, Education Collocations, Conditionals & Word Formation.<br>Все ответы и выученные карточки сохраняются автоматически при вводе!</p>
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('trainer')">📇 Тренажер карточек</button>
+            <button class="tab-btn" onclick="switchTab('homework')">📝 Домашнее задание</button>
+        </div>
+    </div>
+
+    <!-- TAB 1: TRAINER -->
+    <div id="tab-trainer" class="tab-content active">
+        <div class="progress-box">
+            <div class="progress-meta">
+                <span id="counterText">Card 1 of 10</span>
+                <span id="masteredText">Выучено: 0 / 10</span>
+            </div>
+            <div class="bar-outer">
+                <div class="bar-inner" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="card-stage" onclick="flipCard()">
+            <div class="card-inner" id="cardInner">
+                <div class="card-face card-front">
+                    <span class="card-category" id="cardCategory">Phrasal Verb</span>
+                    <div class="card-word" id="cardWord">get over</div>
+                    <span style="font-size: 0.82rem; color: var(--text-muted); margin-top: 10px;">💡 Нажми на карточку, чтобы перевернуть</span>
+                </div>
+                <div class="card-face card-back">
+                    <div class="card-translation" id="cardTranslation">оправиться, пережить</div>
+                    <div class="card-example" id="cardExample">She soon got over the disappointment of getting a low mark.</div>
+                    <span style="font-size: 0.82rem; color: var(--text-muted); margin-top: 10px;">🔄 Кликни, чтобы перевернуть обратно</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-controls">
+            <button class="btn-card" onclick="prevCard()">← Назад</button>
+            <button class="btn-card btn-card-learn" onclick="markCard(false)">❌ Повторить еще раз</button>
+            <button class="btn-card btn-card-know" onclick="markCard(true)">✅ Знаю слово!</button>
+            <button class="btn-card" onclick="nextCard()">Вперед →</button>
+        </div>
+    </div>
+
+    <!-- TAB 2: HOMEWORK -->
+    <div id="tab-homework" class="tab-content">
+
+        <!-- Part 1: Phrasal Verbs -->
+        <div class="section-card">
+            <div class="section-title">Part 1: Phrasal Verbs Mastery</div>
+
+            <div class="exercise">
+                <div class="exercise-title">Task 1.1: Context Gap-Fill</div>
+                <div class="instruction">Вставь правильный фразовый глагол в нужной форме: <em>[get over, live up to, get away with, point out, put off, turn out, look back]</em></div>
+                <ol>
+                    <li>Why do you always ___________ revising for your exams until the very last weekend? &rarr; 
+                        <input type="text" data-answers="put off" placeholder="...">
+                    </li>
+                    <li>The university entrance exam was tough, but it ___________ to be fair. &rarr; 
+                        <input type="text" data-answers="turned out" placeholder="...">
+                    </li>
+                    <li>Students who cheat rarely manage to ___________ it; teachers always notice. &rarr; 
+                        <input type="text" data-answers="get away with" placeholder="...">
+                    </li>
+                    <li>The campus didn't quite ___________ our high expectations. &rarr; 
+                        <input type="text" data-answers="live up to" placeholder="...">
+                    </li>
+                    <li>When graduates ___________ on their school years, they appreciate their teachers more. &rarr; 
+                        <input type="text" data-answers="look back|look back on" placeholder="...">
+                    </li>
+                    <li>Our tutor took time to ___________ the most common errors in our essays. &rarr; 
+                        <input type="text" data-answers="point out" placeholder="...">
+                    </li>
+                </ol>
+                <button class="btn-check" onclick="checkExercise(this)">Check Answers</button>
+                <div class="feedback-msg"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="exercise-title">Task 1.2: Academic Collocations (Prepositions)</div>
+                <div class="instruction">Впечатай правильный предлог (<em>for, to, in, with</em>):</div>
+                <ol>
+                    <li>She wants to apply ________ admission ________ Cambridge University. &rarr; 
+                        <input type="text" data-answers="for to|for; to|for, to" placeholder="предлог 1 предлог 2...">
+                    </li>
+                    <li>Regular attendance is essential ________ passing the course. &rarr; 
+                        <input type="text" data-answers="for" placeholder="...">
+                    </li>
+                    <li>Volunteering during high school improves your prospects ________ the future. &rarr; 
+                        <input type="text" data-answers="for|in" placeholder="...">
+                    </li>
+                    <li>Our lecturer was very helpful and assisted us ________ our research. &rarr; 
+                        <input type="text" data-answers="with" placeholder="...">
+                    </li>
+                </ol>
+                <button class="btn-check" onclick="checkExercise(this)">Check Answers</button>
+                <div class="feedback-msg"></div>
+            </div>
+        </div>
+
+        <!-- Part 2: Word Formation (ЕГЭ / FCE) -->
+        <div class="section-card">
+            <div class="section-title">Part 2: Word Formation (ЕГЭ Задания 25–29 / R&U Part 3)</div>
+
+            <div class="exercise">
+                <span class="exam-tag">Task 25–29 / Word Formation</span>
+                <div class="exercise-title">Task 2.1: Transforming Stems</div>
+                <div class="instruction">Преобразуй слово, написанное заглавными буквами, чтобы оно грамматически и лексически соответствовало пропуску:</div>
+                <ol>
+                    <li>Studying in another country requires numerous cultural ___________ . [<b>ADJUST</b>] &rarr; 
+                        <input type="text" data-answers="adjustments" placeholder="...">
+                    </li>
+                    <li>Teenagers often build lifelong ___________ during educational exchanges. [<b>FRIEND</b>] &rarr; 
+                        <input type="text" data-answers="friendships" placeholder="...">
+                    </li>
+                    <li>The library offers a huge ___________ of historical reference books. [<b>VARY</b>] &rarr; 
+                        <input type="text" data-answers="variety" placeholder="...">
+                    </li>
+                    <li>Bad classroom ___________ can negatively impact your final grade. [<b>BEHAVE</b>] &rarr; 
+                        <input type="text" data-answers="behaviour|behavior" placeholder="...">
+                    </li>
+                    <li>I received a formal letter of ___________ to the language institute. [<b>ADMIT</b>] &rarr; 
+                        <input type="text" data-answers="admission" placeholder="...">
+                    </li>
+                    <li>Her tutor praised her for making steady ___________ in French. [<b>IMPROVE</b>] &rarr; 
+                        <input type="text" data-answers="improvement|improvements" placeholder="...">
+                    </li>
+                </ol>
+                <button class="btn-check" onclick="checkExercise(this)">Check Answers</button>
+                <div class="feedback-msg"></div>
+            </div>
+        </div>
+
+        <!-- Part 3: Conditionals & Transformations -->
+        <div class="section-card">
+            <div class="section-title">Part 3: Conditionals (Zero, 1st & 2nd) & Transformations</div>
+
+            <div class="exercise">
+                <div class="exercise-title">Task 3.1: Open Cloze (Раскрой скобки)</div>
+                <div class="instruction">Поставь глагол в скобках в правильную форму (принимаются полные и краткие формы: <i>wouldn't / would not</i>, <i>didn't / did not</i>):</div>
+                <ol>
+                    <li>If I lived closer to the campus, I _____________________ (walk) to lessons every day. &rarr; 
+                        <input type="text" style="width: 50%;" data-answers="would walk|'d walk" placeholder="...">
+                    </li>
+                    <li>Unless she _____________________ (study) diligently, she will not pass the test. &rarr; 
+                        <input type="text" style="width: 50%;" data-answers="studies" placeholder="...">
+                    </li>
+                    <li>What would you do if you _____________________ (lose) your student ID card? &rarr; 
+                        <input type="text" style="width: 50%;" data-answers="lost" placeholder="...">
+                    </li>
+                    <li>If water reaches 100 degrees Celsius, it _____________________ (boil). &rarr; 
+                        <input type="text" style="width: 50%;" data-answers="boils" placeholder="...">
+                    </li>
+                    <li>If he gets good grades, he _____________________ (apply) to medical school next year. &rarr; 
+                        <input type="text" style="width: 50%;" data-answers="will apply|'ll apply|can apply" placeholder="...">
+                    </li>
+                </ol>
+                <button class="btn-check" onclick="checkExercise(this)">Check Answers</button>
+                <div class="feedback-msg"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exam-tag">Use of English Part 4 / Transformations</span>
+                <div class="exercise-title">Task 3.2: Key Word Transformation (2 to 5 words)</div>
+                <div class="instruction">Заполни пропуск от 2 до 5 слов, включая выделенное капсом слово (не меняя его форму):</div>
+                <ol>
+                    <li>
+                        We won't finish the essay on time without your advice.<br>
+                        <strong>HELP</strong><br>
+                        Unless __________________________________________, we won't finish the essay on time. &rarr; <br>
+                        <input type="text" style="width: 75%;" data-answers="you help us|you help us with it" placeholder="...">
+                    </li>
+                    <li>
+                        Julio will not get into that college because his marks are low.<br>
+                        <strong>HAD</strong><br>
+                        If Julio __________________________________________, he would get into that college. &rarr; <br>
+                        <input type="text" style="width: 75%;" data-answers="had higher marks|had better marks|had good marks" placeholder="...">
+                    </li>
+                    <li>
+                        You can only borrow books if you have a library card.<br>
+                        <strong>UNLESS</strong><br>
+                        You cannot borrow books __________________________________________ a library card. &rarr; <br>
+                        <input type="text" style="width: 75%;" data-answers="unless you have|unless you possess" placeholder="...">
+                    </li>
+                </ol>
+                <button class="btn-check" onclick="checkExercise(this)">Check Answers</button>
+                <div class="feedback-msg"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="exercise-title">Task 3.3: Error Correction</div>
+                <div class="instruction">В каждом предложении есть одна ошибка с Conditional. Напиши <b>исправленное предложение целиком</b>:</div>
+                <ol>
+                    <li>If I will have time tonight, I will finish my homework. &rarr; <br>
+                        <input type="text" style="width: 85%;" data-answers="if i have time tonight i will finish my homework|if i have time tonight i'll finish my homework" placeholder="...">
+                    </li>
+                    <li>If she studied harder, she will get better marks in the exam. &rarr; <br>
+                        <input type="text" style="width: 85%;" data-answers="if she studied harder she would get better marks in the exam|if she studied harder she'd get better marks in the exam|if she studies harder she will get better marks in the exam" placeholder="...">
+                    </li>
+                </ol>
+                <button class="btn-check" onclick="checkExercise(this)">Check Answers</button>
+                <div class="feedback-msg"></div>
+            </div>
+        </div>
+
+        <!-- Part 4: Mini Essay Prompt -->
+        <div class="section-card">
+            <div class="section-title">Part 4: Mini-Writing / Opinion Task (ЕГЭ Задание 38 / FCE Essay)</div>
+            <div class="exercise">
+                <div class="exercise-title">Task 4.1: Should All High School Students Study Abroad?</div>
+                <div class="instruction">
+                    Напиши 4–6 развернутых предложений (около 60–80 слов) с аргументацией своего мнения. Используй минимум два условных предложения (<em>If teenagers spend a term abroad... / If I were in their position, I would...</em>) и 2 слова из активного вокабуляра. Текст сохраняется автоматически.
+                </div>
+                <textarea id="hw_study_writing" placeholder="Write your paragraph here..."></textarea>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    // Tab Navigation
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        if (tabName === 'trainer') {
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            document.getElementById('tab-trainer').classList.add('active');
+        } else {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.getElementById('tab-homework').classList.add('active');
+        }
+        localStorage.setItem('study_hw_active_tab', tabName);
+    }
+
+    // Flashcards Data
+    const cardsData = [
+        { word: "get over", category: "Phrasal verb", translation: "оправиться, пережить", example: "She soon got over the disappointment of getting a low mark." },
+        { word: "live up to", category: "Phrasal verb", translation: "оправдать (ожидания)", example: "The university did not live up to my high expectations." },
+        { word: "get away with", category: "Phrasal verb", translation: "сойти с рук, избежать наказания", example: "He tried to get away with copying his project from Wikipedia." },
+        { word: "point out", category: "Phrasal verb", translation: "указать, обратить внимание", example: "The teacher pointed out three careless mistakes in my essay." },
+        { word: "put off", category: "Phrasal verb", translation: "откладывать (на потом)", example: "Don't put off your exam revision until the final evening." },
+        { word: "turn out", category: "Phrasal verb", translation: "оказаться в итоге", example: "The mock exam turned out to be easier than we had expected." },
+        { word: "look back on", category: "Phrasal verb", translation: "оглядываться назад, вспоминать", example: "When I look back on my school days, I realize how fun they were." },
+        { word: "apply for admission to", category: "Academic Collocation", translation: "подавать заявление на поступление", example: "She applied for admission to the Faculty of History." },
+        { word: "essential for", category: "Dependent Preposition", translation: "необходимый, обязательный для", example: "Good sleep is essential for academic performance." },
+        { word: "make adjustments", category: "Word Formation", translation: "приспосабливаться, адаптироваться", example: "Exchange students often need to make cultural adjustments." }
+    ];
+
+    let currentCardIdx = 0;
+    let cardStatus = JSON.parse(localStorage.getItem('study_hw_cards_status')) || {};
+
+    function updateCardDisplay() {
+        const item = cardsData[currentCardIdx];
+        document.getElementById('cardInner').classList.remove('flipped');
+
+        setTimeout(() => {
+            document.getElementById('cardCategory').textContent = item.category;
+            document.getElementById('cardWord').textContent = item.word;
+            document.getElementById('cardTranslation').textContent = item.translation;
+            document.getElementById('cardExample').textContent = item.example;
+        }, 120);
+
+        document.getElementById('counterText').textContent = `Card ${currentCardIdx + 1} of${cardsData.length}`;
+        const knownCount = Object.values(cardStatus).filter(v => v === true).length;
+        document.getElementById('masteredText').textContent = `Выучено: ${knownCount} /${cardsData.length}`;
+        document.getElementById('progressBar').style.width = `${(knownCount / cardsData.length) * 100}%`;
+    }
+
+    function flipCard() {
+        document.getElementById('cardInner').classList.toggle('flipped');
+    }
+
+    function nextCard() {
+        currentCardIdx = (currentCardIdx + 1) % cardsData.length;
+        updateCardDisplay();
+    }
+
+    function prevCard() {
+        currentCardIdx = (currentCardIdx - 1 + cardsData.length) % cardsData.length;
+        updateCardDisplay();
+    }
+
+    function markCard(known) {
+        cardStatus[currentCardIdx] = known;
+        localStorage.setItem('study_hw_cards_status', JSON.stringify(cardStatus));
+        nextCard();
+    }
+
+    // Flexible String Sanitizer
+    function cleanStr(s) {
+        return s.toLowerCase()
+                .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, " ") // replace punctuation with space
+                .replace(/['’]/g, "'") // normalize apostrophe
+                .replace(/\s+/g, " ") // collapse whitespaces
+                .trim();
+    }
+
+    // Exercise Validator
+    function checkExercise(btn) {
+        const container = btn.closest(".exercise");
+        const inputs = container.querySelectorAll("input[type='text']");
+        const feedback = container.querySelector(".feedback-msg");
+        let allOk = true;
+        let count = 0;
+
+        inputs.forEach(input => {
+            const possible = input.getAttribute("data-answers").split("|").map(cleanStr);
+            const val = cleanStr(input.value);
+            if (val.length > 0) count++;
+
+            if (possible.includes(val)) {
+                input.classList.remove("incorrect");
+                input.classList.add("correct");
+            } else {
+                input.classList.remove("correct");
+                input.classList.add("incorrect");
+                allOk = false;
+            }
+        });
+
+        feedback.classList.add("show");
+        if (allOk && count === inputs.length) {
+            feedback.className = "feedback-msg show good";
+            feedback.textContent = "Отлично! Все задания выполнены правильно! 🎉";
+        } else {
+            feedback.className = "feedback-msg show bad";
+            feedback.textContent = "Есть неточности или пустые поля. Проверь орфографию!";
+        }
+    }
+
+    // Restore on Load
+    document.addEventListener("DOMContentLoaded", () => {
+        updateCardDisplay();
+
+        const savedTab = localStorage.getItem('study_hw_active_tab');
+        if (savedTab) switchTab(savedTab);
+
+        const fields = document.querySelectorAll("input[type='text'], textarea");
+        fields.forEach((f, i) => {
+            const val = localStorage.getItem("study_hw_field_" + i);
+            if (val !== null) f.value = val;
+            f.addEventListener("input", () => {
+                localStorage.setItem("study_hw_field_" + i, f.value);
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
