@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework & Vocabulary Trainer • Unit 6: My First Job</title>
+    <style>
+        :root {
+            --bg-color: #0b1120;
+            --card-bg: #161f30;
+            --subcard-bg: #1e293b;
+            --border-color: #334155;
+            --text-main: #cbd5e1;
+            --text-bright: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-cyan: #22d3ee;
+            --accent-purple: #c084fc;
+            --accent-amber: #f59e0b;
+            --accent-emerald: #3fb950;
+            --accent-crimson: #f85149;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 26px;
+        }
+
+        .header-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 28px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue), var(--accent-purple));
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        h1 {
+            color: var(--text-bright);
+            font-size: 2rem;
+            margin-bottom: 6px;
+        }
+
+        .header-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .tab-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .tab-btn {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-blue);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 9px 20px;
+            border-radius: 24px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-blue);
+            color: #0b1120;
+            font-weight: 700;
+            border-color: var(--accent-blue);
+        }
+
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        .section-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section-title {
+            color: var(--accent-cyan);
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .exercise {
+            background-color: var(--subcard-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .exercise-title {
+            color: var(--text-bright);
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .instruction {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+        }
+
+        .instruction em {
+            color: var(--accent-amber);
+            font-style: normal;
+        }
+
+        .exam-tag {
+            display: inline-block;
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            margin-bottom: 4px;
+            align-self: flex-start;
+        }
+
+        ol, ul {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        li {
+            font-size: 0.95rem;
+        }
+
+        input[type="text"] {
+            background-color: #0b1120;
+            border: 1px solid var(--border-color);
+            color: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        input[type="text"].correct {
+            border-color: var(--accent-emerald) !important;
+            background-color: rgba(63, 185, 80, 0.12) !important;
+        }
+
+        input[type="text"].incorrect {
+            border-color: var(--accent-crimson) !important;
+            background-color: rgba(248, 81, 73, 0.12) !important;
+        }
+
+        textarea {
+            width: 100%;
+            background-color: #0b1120;
+            border: 1px solid var(--border-color);
+            color: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            min-height: 110px;
+            font-family: inherit;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .btn-check {
+            align-self: flex-start;
+            background-color: var(--card-bg);
+            color: var(--text-bright);
+            border: 1px solid var(--border-color);
+            padding: 8px 18px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 4px;
+        }
+
+        .btn-check:hover {
+            background-color: #2b394e;
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .feedback-msg {
+            font-size: 0.88rem;
+            display: none;
+        }
+
+        .feedback-msg.show {
+            display: block;
+        }
+
+        .feedback-msg.good {
+            color: var(--accent-emerald);
+        }
+
+        .feedback-msg.bad {
+            color: var(--accent-crimson);
+        }
+
+        /* Flashcard Styles */
+        .progress-box {
+            background: var(--subcard-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        .bar-outer {
+            width: 100%;
+            height: 8px;
+            background: #0b1120;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .bar-inner {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-emerald));
+            transition: width 0.3s ease;
+        }
+
+        .card-stage {
+            perspective: 1200px;
+            width: 100%;
+            height: 310px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: var(--card-bg);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: #111e33;
+            border-color: #233e66;
+        }
+
+        .card-word {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-bright);
+            margin-bottom: 8px;
+        }
+
+        .card-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-blue);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-translation {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-emerald);
+            margin-bottom: 12px;
+        }
+
+        .card-example {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-style: italic;
+            background: rgba(0,0,0,0.3);
+            padding: 10px 16px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-cyan);
+            max-width: 90%;
+        }
+
+        .card-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-card {
+            background: var(--subcard-bg);
+            color: var(--text-bright);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-card-learn {
+            background: rgba(248, 81, 73, 0.12);
+            color: #ff7b72;
+            border-color: rgba(248, 81, 73, 0.4);
+        }
+
+        .btn-card-know {
+            background: rgba(63, 185, 80, 0.15);
+            color: #3fb950;
+            border-color: rgba(63, 185, 80, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header-card">
+        <span class="badge">EGE / Cambridge First • Homework & Vocabulary Trainer</span>
+        <h1>Unit 6: My First Job Practice Pack</h1>
+        <p>Review key collocations, word formation, job vs. work, and confusable words.<br>All progress and answers are saved automatically in your browser.</p>
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('trainer')">📇 Flashcard Trainer</button>
+            <button class="tab-btn" onclick="switchTab('homework')">📝 Homework Tasks</button>
+        </div>
+    </div>
+
+    <!-- TAB 1: TRAINER -->
+    <div id="tab-trainer" class="tab-content active">
+        <div class="progress-box">
+            <div class="progress-meta">
+                <span id="counterText">Card 1 of 14</span>
+                <span id="masteredText">Mastered: 0 / 14</span>
+            </div>
+            <div class="bar-outer">
+                <div class="bar-inner" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="card-stage" onclick="flipCard()">
+            <div class="card-inner" id="cardInner">
+                <div class="card-face card-front">
+                    <span class="card-category" id="cardCategory">Category</span>
+                    <div class="card-word" id="cardWord">qualification</div>
+                    <span style="font-size: 0.82rem; color: var(--text-muted); margin-top: 10px;">💡 Click the card to flip</span>
+                </div>
+                <div class="card-face card-back">
+                    <div class="card-translation" id="cardTranslation">квалификация, диплом</div>
+                    <div class="card-example" id="cardExample">Example sentence...</div>
+                    <span style="font-size: 0.82rem; color: var(--text-muted); margin-top: 10px;">🔄 Click to flip back</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-controls">
+            <button class="btn-card" onclick="prevCard()">← Previous</button>
+            <button class="btn-card btn-card-learn" onclick="markCard(false)">❌ Review Again</button>
+            <button class="btn-card btn-card-know" onclick="markCard(true)">✅ I Know This!</button>
+            <button class="btn-card" onclick="nextCard()">Next →</button>
+        </div>
+    </div>
+
+    <!-- TAB 2: HOMEWORK -->
+    <div id="tab-homework" class="tab-content">
+
+        <!-- Part 1: Vocabulary & Handwritten Focus -->
+        <div class="section-card">
+            <div class="section-title">Part 1: Vocabulary & Collocations (Handwritten Set)</div>
+
+            <div class="exercise">
+                <div class="exercise-title">Task 1.1: Contextual Fill-in</div>
+                <div class="instruction">Complete the sentences using words from the vocabulary list: <em>[qualification, qualified, as far as I know, long-term, demanding, valuable experience, lose his temper]</em></div>
+                <ol>
+                    <li>Carrying heavy trays for six hours without a break was physically <input type="text" data-answers="demanding" placeholder="...">.</li>
+                    <li>The head chef was very strict and tended to <input type="text" data-answers="lose his temper" placeholder="..."> whenever an order was delayed.</li>
+                    <li>Even though the pay was low, working as a junior waitress provided <input type="text" data-answers="valuable experience" placeholder="..."> for her future CV.</li>
+                    <li><input type="text" data-answers="as far as i know" placeholder="...">, none of the family members had ever run a hotel before.</li>
+                    <li>A temporary summer job rarely offers <input type="text" data-answers="long-term|long term" placeholder="..."> career stability.</li>
+                    <li>She holds a university diploma in tourism, so she is fully <input type="text" data-answers="qualified" placeholder="..."> for this managerial post.</li>
+                    <li>Applicants must have at least one professional <input type="text" data-answers="qualification" placeholder="..."> in hospitality management.</li>
+                </ol>
+                <button class="btn-check" onclick="checkExercise(this)">Check Answers</button>
+                <div class="feedback-msg"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exam-tag">EGE Tasks 30–36 Focus</span>
+                <div class="exercise-title">Task 1.2: Confusable Words Drill</div>
+                <div class="instruction">Choose the correct word: <em>[job / work, opportunity / possibility / occasion, fun / funny]</em></div>
+                <ol>
+                    <li>He found well-paid <input type="text" data-answers="work" placeholder="job / work..."> in an international IT company.</li>
+                    <li>Working on the sweet trolley gave Lucy a wonderful <input type="text" data-answers="opportunity" placeholder="opportunity / possibility / occasion..."> to bake creative desserts.</li>
+                    <li>On rare <input type="text" data-answers="occasions" placeholder="possibilities / occasions / opportunities...">, the hotel manager asked students to lead the reception desk.</li>
+                    <li>Is there any <input type="text" data-answers="possibility" placeholder="opportunity / possibility / occasion..."> of getting promoted before the end of the year?</li>
+                    <li>Serving friendly guests at breakfast was real <input type="text" data-answers="fun" placeholder="fun / funny...">, and the morning flew by.</li>
+                    <li>His jokes were so <input type="text" data-answers="funny" placeholder="fun / funny..."> that everyone in the dining room burst out laughing.</li>
+                    <li>She decided to apply for a temporary <input type="text" data-answers="job" placeholder="job / work..."> as a camp counsellor.</li>
+                </ol>
+                <button class="btn-check" onclick="checkExercise(this)">Check Answers</button>
+                <div class="feedback-msg"></div>
+            </div>
+        </div>
+
+        <!-- Part 2: Word Formation -->
+        <div class="section-card">
+            <div class="section-title">Part 2: Word Formation (EGE Tasks 25–29 Format)</div>
+
+            <div class="exercise">
+                <span class="exam-tag">Tasks 25–29 / R&U Part 3</span>
+                <div class="exercise-title">Task 2.1: Transforming Stems</div>
+                <div class="instruction">Transform the words in capital letters to grammatically and lexically fit each sentence:</div>
+                <ol>
+                    <li>She was not hired because she did not have the necessary <input type="text" data-answers="qualifications" placeholder="...">. [<b>QUALIFY</b>]</li>
+                    <li>You need to be properly <input type="text" data-answers="qualified" placeholder="..."> to work as an emergency lifeguard. [<b>QUALIFY</b>]</li>
+                    <li>Future <input type="text" data-answers="employers" placeholder="..."> always appreciate candidates who have practical work experience. [<b>EMPLOY</b>]</li>
+                    <li>Teenagers should learn to speak <input type="text" data-answers="professionally" placeholder="..."> when dealing with demanding clients. [<b>PROFESSION</b>]</li>
+                    <li>Taking on personal <input type="text" data-answers="responsibility" placeholder="..."> for your tasks helps build maturity. [<b>RESPONSIBLE</b>]</li>
+                    <li>Overcoming a difficult day at work brings a deep sense of personal <input type="text" data-answers="satisfaction" placeholder="...">. [<b>SATISFY</b>]</li>
+                </ol>
+                <button class="btn-check" onclick="checkExercise(this)">Check Answers</button>
+                <div class="feedback-msg"></div>
+            </div>
+        </div>
+
+        <!-- Part 3: Grammar - Nouns & Transformations -->
+        <div class="section-card">
+            <div class="section-title">Part 3: Grammar Workout (Countable vs Uncountable & Sentence Transformations)</div>
+
+            <div class="exercise">
+                <div class="exercise-title">Task 3.1: Noun Accuracy & Partitives</div>
+                <div class="instruction">Choose the grammatically correct option:</div>
+                <ol>
+                    <li>The consultant gave me <em>(an advice / a piece of advice / some advices)</em> on how to write my CV. &rarr; <input type="text" data-answers="a piece of advice|some advice" placeholder="..."></li>
+                    <li>She is looking for <em>(a job / a work / works)</em> in retail. &rarr; <input type="text" data-answers="a job" placeholder="..."></li>
+                    <li>The hotel provides modern kitchen <em>(equipment / an equipment / equipments)</em> for the chefs. &rarr; <input type="text" data-answers="equipment" placeholder="..."></li>
+                    <li>Could you send me some <em>(information / informations / an information)</em> about seasonal vacancies? &rarr; <input type="text" data-answers="information" placeholder="..."></li>
+                    <li>The news about your new position <em>(is / are)</em> very exciting! &rarr; <input type="text" data-answers="is" placeholder="..."></li>
+                </ol>
+                <button class="btn-check" onclick="checkExercise(this)">Check Answers</button>
+                <div class="feedback-msg"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exam-tag">Use of English Part 4 / Transformations</span>
+                <div class="exercise-title">Task 3.2: Key Word Transformation (2 to 5 words)</div>
+                <div class="instruction">Complete the second sentence so that it means the same as the first. Use between 2 and 5 words, including the word in bold:</div>
+                <ol>
+                    <li>
+                        He managed to convince the manager to hire him.<br>
+                        <strong>SUCCEEDED</strong><br>
+                        He <input type="text" style="width: 60%;" data-answers="succeeded in convincing" placeholder="..."> the manager to hire him.
+                    </li>
+                    <li>
+                        The senior waiter gave me three very useful suggestions.<br>
+                        <strong>PIECES</strong><br>
+                        The senior waiter gave me three very useful <input type="text" style="width: 60%;" data-answers="pieces of advice" placeholder="...">.
+                    </li>
+                    <li>
+                        I last worked as a barista two years ago.<br>
+                        <strong>SINCE</strong><br>
+                        It has been two years <input type="text" style="width: 60%;" data-answers="since i worked|since i last worked" placeholder="..."> as a barista.
+                    </li>
+                    <li>
+                        Her short temper made everyone in the kitchen nervous.<br>
+                        <strong>LOST</strong><br>
+                        Whenever she <input type="text" style="width: 60%;" data-answers="lost her temper" placeholder="...">, everyone in the kitchen felt nervous.
+                    </li>
+                </ol>
+                <button class="btn-check" onclick="checkExercise(this)">Check Answers</button>
+                <div class="feedback-msg"></div>
+            </div>
+        </div>
+
+        <!-- Part 4: Mini-Writing -->
+        <div class="section-card">
+            <div class="section-title">Part 4: Mini-Writing (EGE Speaking Task 4 Preparation)</div>
+            <div class="exercise">
+                <div class="exercise-title">Task 4.1: Opinion Statement (First Job Reflection)</div>
+                <div class="instruction">
+                    Write a short paragraph (50–70 words) answering this question:
+                    <br><em>"Is it better for a 16-year-old student to take a demanding, poorly-paid job that provides valuable experience, or a simple, well-paid temporary job? Why?"</em>
+                    <br>Try to include at least 2 target phrases (e.g., <em>demanding, valuable experience, long-term, worthwhile</em>).
+                </div>
+                <textarea id="hw_written_resp" placeholder="Type your answer here. Everything is automatically saved..."></textarea>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    // Tab Navigation
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        if (tabName === 'trainer') {
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            document.getElementById('tab-trainer').classList.add('active');
+        } else {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.getElementById('tab-homework').classList.add('active');
+        }
+        localStorage.setItem('first_job_hw_tab', tabName);
+    }
+
+    // Flashcard Dataset (includes photo words + lesson words)
+    const cardsData = [
+        {
+            word: "qualification",
+            category: "Noun (from notes)",
+            translation: "квалификация, диплом, документ об образовании",
+            example: "You need a recognized teaching qualification to apply for this post."
+        },
+        {
+            word: "to be qualified",
+            category: "Verb phrase / Adj (from notes)",
+            translation: "быть квалифицированным / иметь подтверждённую квалификацию",
+            example: "She is fully qualified to supervise the summer camp sports activities."
+        },
+        {
+            word: "as far as I know",
+            category: "Discourse phrase (from notes)",
+            translation: "насколько я знаю / насколько мне известно",
+            example: "As far as I know, the interview will be held online via Zoom."
+        },
+        {
+            word: "long-term",
+            category: "Adjective (from notes)",
+            translation: "долгосрочный, рассчитанный на долгий срок",
+            example: "Working part-time can open doors to valuable long-term career prospects."
+        },
+        {
+            word: "demanding",
+            category: "Adjective (from notes)",
+            translation: "требующий больших усилий, сложный",
+            example: "Waitressing in a busy luxury hotel is physically demanding work."
+        },
+        {
+            word: "valuable experience",
+            category: "Collocation (from notes)",
+            translation: "ценный опыт",
+            example: "Her first job in customer service gave her valuable experience for adult life."
+        },
+        {
+            word: "to lose one's temper",
+            category: "Idiom / Phrase (from notes)",
+            translation: "выходить из себя, терять самообладание",
+            example: "The head chef was exhausted and began to lose his temper with the staff."
+        },
+        {
+            word: "job vs. work",
+            category: "Countable vs. Uncountable",
+            translation: "job (исчисляемое: профессия, должность) vs. work (неисчисляемое: труд)",
+            example: "He applied for a job [c] because he needed to find work [un]."
+        },
+        {
+            word: "opportunity",
+            category: "Noun",
+            translation: "благоприятная возможность, шанс",
+            example: "Working on the sweet trolley was a wonderful opportunity to show creativity."
+        },
+        {
+            word: "possibility",
+            category: "Noun",
+            translation: "вероятность (гипотетическая)",
+            example: "There is a strong possibility that it will rain during our outdoor shift."
+        },
+        {
+            word: "occasion",
+            category: "Noun",
+            translation: "случай, повод, особое событие",
+            example: "On special occasions, the restaurant was decorated with fresh flowers."
+        },
+        {
+            word: "worthwhile",
+            category: "Adjective",
+            translation: "стоящий потраченных усилий / времени",
+            example: "Volunteering at the hospital was tiring, but it was a worthwhile experience."
+        },
+        {
+            word: "temporary vs. permanent",
+            category: "Antonyms (Job types)",
+            translation: "временный vs. постоянный (о контракте / графике)",
+            example: "Students usually look for temporary summer work rather than permanent contracts."
+        },
+        {
+            word: "fun vs. funny",
+            category: "Noun/Adj distinction",
+            translation: "fun (удовольствие, веселье) vs. funny (смешной, странный)",
+            example: "Swimming was great fun, but his funny facial expressions made us laugh."
+        }
+    ];
+
+    let currentCardIdx = 0;
+    let cardStatus = JSON.parse(localStorage.getItem('first_job_cards_status')) || {};
+
+    function updateCardDisplay() {
+        const item = cardsData[currentCardIdx];
+        document.getElementById('cardInner').classList.remove('flipped');
+
+        setTimeout(() => {
+            document.getElementById('cardCategory').textContent = item.category;
+            document.getElementById('cardWord').textContent = item.word;
+            document.getElementById('cardTranslation').textContent = item.translation;
+            document.getElementById('cardExample').textContent = item.example;
+        }, 120);
+
+        document.getElementById('counterText').textContent = `Card ${currentCardIdx + 1} of${cardsData.length}`;
+        const knownCount = Object.values(cardStatus).filter(v => v === true).length;
+        document.getElementById('masteredText').textContent = `Mastered: ${knownCount} /${cardsData.length}`;
+        document.getElementById('progressBar').style.width = `${(knownCount / cardsData.length) * 100}%`;
+    }
+
+    function flipCard() {
+        document.getElementById('cardInner').classList.toggle('flipped');
+    }
+
+    function nextCard() {
+        currentCardIdx = (currentCardIdx + 1) % cardsData.length;
+        updateCardDisplay();
+    }
+
+    function prevCard() {
+        currentCardIdx = (currentCardIdx - 1 + cardsData.length) % cardsData.length;
+        updateCardDisplay();
+    }
+
+    function markCard(known) {
+        cardStatus[currentCardIdx] = known;
+        localStorage.setItem('first_job_cards_status', JSON.stringify(cardStatus));
+        nextCard();
+    }
+
+    // Flexible String Sanitizer
+    function cleanStr(s) {
+        return s.toLowerCase()
+                .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, " ")
+                .replace(/['’]/g, "'")
+                .replace(/\s+/g, " ")
+                .trim();
+    }
+
+    // Task Validation
+    function checkExercise(btn) {
+        const container = btn.closest(".exercise");
+        const inputs = container.querySelectorAll("input[type='text']");
+        const feedback = container.querySelector(".feedback-msg");
+        let allOk = true;
+        let count = 0;
+
+        inputs.forEach(input => {
+            const possible = input.getAttribute("data-answers").split("|").map(cleanStr);
+            const val = cleanStr(input.value);
+            if (val.length > 0) count++;
+
+            if (possible.includes(val)) {
+                input.classList.remove("incorrect");
+                input.classList.add("correct");
+            } else {
+                input.classList.remove("correct");
+                input.classList.add("incorrect");
+                allOk = false;
+            }
+        });
+
+        feedback.classList.add("show");
+        if (allOk && count === inputs.length) {
+            feedback.className = "feedback-msg show good";
+            feedback.textContent = "Great job! All answers are correct.";
+        } else {
+            feedback.className = "feedback-msg show bad";
+            feedback.textContent = "Some answers are incorrect or missing. Check your spelling and try again.";
+        }
+    }
+
+    // Restore on Load
+    document.addEventListener("DOMContentLoaded", () => {
+        updateCardDisplay();
+
+        const savedTab = localStorage.getItem('first_job_hw_tab');
+        if (savedTab) switchTab(savedTab);
+
+        const fields = document.querySelectorAll("input[type='text'], textarea");
+        fields.forEach((f, i) => {
+            const val = localStorage.getItem("first_job_hw_field_" + i);
+            if (val !== null) f.value = val;
+            f.addEventListener("input", () => {
+                localStorage.setItem("first_job_hw_field_" + i, f.value);
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
